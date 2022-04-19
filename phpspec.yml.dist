@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: Asdoria\SyliusWebImagePlugin
+        psr4_prefix: Asdoria\SyliusWebImagePlugin
