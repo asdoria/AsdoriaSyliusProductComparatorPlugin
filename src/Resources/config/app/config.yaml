@@ -1,0 +1,19 @@
+imports:
+    - "ui.yaml"
+
+liip_imagine:
+    filter_sets:
+        sylius_shop_product_thumbnail_low:
+            quality: 20
+            filters:
+                blur: [ 8 ]
+                thumbnail: { size: [ 260, 260 ], mode: outbound }
+#            post_processors:
+#                pngquant: { quality: "5-10" }
+#                jpegoptim: { strip_all: true, max: 5, progressive: true }
+
+fos_js_routing:
+    routes_to_expose:
+        - liip_imagine_filter
+        - api_products_shop_get_item
+        - api_taxa_shop_get_item

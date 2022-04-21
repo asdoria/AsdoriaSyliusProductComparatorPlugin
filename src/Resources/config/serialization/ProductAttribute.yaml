@@ -1,0 +1,46 @@
+App\Entity\Product\ProductAttribute:
+    attributes:
+        id:
+            groups:
+                - admin:product_attribute:read
+        name:
+            groups:
+#                - shop:product:read
+#                - shop:product_attribute:read
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        type:
+            groups:
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        configuration:
+            groups:
+                - shop:product_attribute:read
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        translatable:
+            groups:
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        position:
+            groups:
+                - shop:product_attribute:read
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        createdAt:
+            groups:
+                - admin:product_attribute:read
+        updatedAt:
+            groups:
+                - admin:product_attribute:read
+        translations:
+            groups:
+                - shop:product_attribute:read
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update

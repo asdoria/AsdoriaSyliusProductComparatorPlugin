@@ -1,0 +1,15 @@
+App\Entity\Product\ProductAttributeValue:
+    attributes:
+        id:
+            groups:
+                - shop:product:read
+                - shop:product_attribute_value:read
+        attribute:
+            groups:
+                - shop:product:read
+                - shop:product_attribute_value:read
+        value:
+            groups:
+                - shop:product:read
+                - shop:product_attribute_value:read
+

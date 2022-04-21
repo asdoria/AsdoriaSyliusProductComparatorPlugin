@@ -1,0 +1,12 @@
+sylius_ui:
+    events:
+        asdoria.shop.product_comparator.javascripts:
+            blocks:
+                scripts:
+                    template: "@AsdoriaSyliusProductComparatorPlugin/_javascripts.html.twig"
+                    priority: 10
+        asdoria.shop.product_comparator.stylesheets:
+            blocks:
+                scripts:
+                    template: "@AsdoriaSyliusProductComparatorPlugin/_stylesheets.html.twig"
+                    priority: 10

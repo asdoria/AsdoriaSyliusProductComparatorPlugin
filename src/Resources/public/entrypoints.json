@@ -1,0 +1,17 @@
+{
+  "entrypoints": {
+    "shop": {
+      "js": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop.min.js"
+      ]
+    },
+    "shop-product-comparator": {
+      "css": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.css"
+      ],
+      "js": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.js"
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+/*
+ * [ settings / icon ]
+ */
+
+// -----------------------------------------------------------------------------
+
+$icons: (
+        arrow-right: 'e90d',
+        angle-right: 'e910',
+        angle-left: 'e911',
+
+        star: 'e914',
+        close : 'e92e',
+);
+
+@function str-unicode($str) {
+    @return unquote("\"") + unquote(str-insert($str, "\\", 1)) + unquote("\"")
+}
+
+@function unicode($icon) {
+    @return str-unicode(quote(map-get($icons, $icon)));
+}

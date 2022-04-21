@@ -1,0 +1,44 @@
+{
+  "name": "product-comparator-bundle",
+  "version": "1.0.0",
+  "description": "",
+  "browserslist": [
+    "last 2 version",
+    "not Explorer 11",
+    "not ExplorerMobile 11",
+    "not dead"
+  ],
+  "scripts": {
+    "encore.dev": "encore dev",
+    "encore.prod": "encore production",
+    "encore.watch": "encore dev --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "babel-polyfill": "^6.26.0",
+    "tailwindcss": "^3.0.23",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.5",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/runtime": "^7.13.10",
+    "@babel/runtime-corejs2": "^7.13.10",
+    "@fullhuman/postcss-purgecss": "^3.1.3",
+    "@symfony/webpack-encore": "^1.1.2",
+    "@vue/compiler-sfc": "^3.0.0",
+    "autoprefixer": "^10.4.2",
+    "babel-loader": "^8.1.0",
+    "postcss": "^8.2.9",
+    "postcss-loader": "^5.2.0",
+    "postcss-preset-env": "^6.7.0",
+    "sass": "^1.32.8",
+    "sass-loader": "^11.0.1",
+    "vue-loader": "^16.0.0-alpha.1",
+    "vue-template-compiler": "^2.6.12",
+    "webpack-bundle-analyzer": "^3.8.0"
+  }
+}

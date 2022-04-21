@@ -1,0 +1,17 @@
+/*
+ * [ base / font ]
+ */
+
+// -----------------------------------------------------------------------------
+
+// 0. Icomoon [Icon]
+// ====================================
+
+@font-face {
+    font-family: 'Icomoon';
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+    src: font('icomoon.ttf') format('truetype'),
+         font('icomoon.woff') format('woff');
+}

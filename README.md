@@ -1,112 +1,87 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
-    </a>
-</p>
+![Logo Asdoria](doc/asdoria.jpg)
 
-<h1 align="center">Plugin Skeleton</h1>
+<h1 align="center">Asdoria Product Comparator Plugin</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+<p align="center">Compare different products with each other</p>
 
-## Documentation
+## Installation
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+---
+1. Add the repository to composer.json
 
-## Quickstart Installation
+```JSON
+"repositories": [
+    {
+        "type": "git",
+        "url": "https://github.com/asdoria/AsdoriaSyliusProductComparatorPlugin.git"
+    }
+],
+```
+2. run `composer require asdoria/sylius-product-comparator-plugin`
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
 
-2. From the plugin skeleton root directory, run the following commands:
+3. Add the bundle in `config/bundles.php`
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
+```PHP
+Asdoria\SyliusProductComparatorPlugin\AsdoriaSyliusProductComparatorPlugin::class => ['all' => true],
+```
+
+4. Import config in `config/packages/_sylius.yaml`
+```yaml
+imports:
+    - { resource: "@AsdoriaSyliusProductComparatorPlugin/Resources/config/app/config.yaml"}
+```
+
+5. Add path in `config/packages/api_platform.yaml`
+```yaml
+api_platform:
+    mapping:
+        paths:
+            - '%kernel.project_dir%/vendor/asdoria/sylius-product-comparator-plugin/src/Resources/config/api_resources'
+```
+
+6. Add serializer in `config/packages/framework.yaml`
+```yaml
+framework:
+    [...]
+    serializer:
+        mapping:
+            paths: ['%kernel.project_dir%/src/Resources/config/serialization']
+```
+
+7. Expose sylius_api in `config/routes/sylius_api.yaml`
+```yaml
+sylius_api:
+    [...]
+    options:
+        expose: true
+```
+
+8. In `config/routes/sylius_shop.yaml`:
+   1. Add comparator route
+    ```yaml
+    asdoria_product_comparator:
+        resource: "@AsdoriaSyliusProductComparatorPlugin/Resources/config/routing.yaml"
     ```
-
-To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+    2. Expose `sylius_shop_product_index`
+   ```yaml
+   sylius_shop_product_index:
+    path: /{_locale}/taxons/{slug}
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.product:indexAction
+        _sylius:
+            template: "@SyliusShop/Product/index.html.twig"
+            grid: asdoria_shop_product
+    requirements:
+        slug: .+
+        _locale: ^[A-Za-z]{2,4}(_([A-Za-z]{4}|[0-9]{3}))?(_([A-Za-z]{2}|[0-9]{3}))?$
+    options:
+        expose: true
+   ```
 
 ## Usage
 
-### Running plugin tests
-
-  - PHPUnit
-
-    ```bash
-    vendor/bin/phpunit
-    ```
-
-  - PHPSpec
-
-    ```bash
-    vendor/bin/phpspec run
-    ```
-
-  - Behat (non-JS scenarios)
-
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
-    ```
-
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript"
-      ```
-    
-  - Static Analysis
-  
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
-
-  - Coding Standard
-  
-    ```bash
-    vendor/bin/ecs check src
-    ```
-
-### Opening Sylius with your plugin
-
-- Using `test` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
-    ```
-    
-- Using `dev` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
-    ```
+1. Include `src/Resources/views/Comparator/_addToComparator.html.twig` with product
+2. Include `src/Resources/views/Comparator/_fixedButton.html.twig` on the pages you want
+3. See result at `http://your-shop/locale/comparator`

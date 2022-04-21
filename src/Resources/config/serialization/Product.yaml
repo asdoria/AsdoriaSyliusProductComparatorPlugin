@@ -1,0 +1,10 @@
+Sylius\Component\Core\Model\Product:
+    attributes:
+        attributes:
+            groups:
+                - admin:product:read
+                - admin:product:create
+                - admin:product:update
+                - shop:product:read
+                - shop:product:create
+                - shop:product:update

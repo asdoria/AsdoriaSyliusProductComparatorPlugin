@@ -1,0 +1,37 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{%- block title %}{{ 'sylius.ui.comparator'|trans }}{% endblock -%}
+
+{% block robots %}
+    <meta name="robots" content="none">
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ sylius_template_event('asdoria.shop.product_comparator.stylesheets') }}
+{% endblock %}
+
+{% block content %}
+    <div class="o-container">
+        <div class="flex justify-center my-20">
+            <h1 class="Comparator-title">
+                {{ 'sylius.ui.comparator'|trans }}
+            </h1>
+        </div>
+        {% set config = {
+            currencyCode: sylius.currencyCode,
+            withTax: true,
+            availableAttributes: [53, 268]
+        } %}
+        <div id="vm-comparator" data-config="{{ config|serialize }}">
+            <div class="flex-flow-centerX">
+                <span class="Comparator-loader"></span>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ sylius_template_event('asdoria.shop.product_comparator.javascripts') }}
+{% endblock %}

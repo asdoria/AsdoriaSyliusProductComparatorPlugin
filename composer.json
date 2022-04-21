@@ -12,7 +12,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.4 || ^8.0",
-        "sylius/sylius": "^1.10"
+        "sylius/sylius": "^1.10",
+        "friendsofsymfony/jsrouting-bundle": "^3.0",
+        "willdurand/js-translation-bundle": "^4.0"
     },
     "require-dev": {
         "dmore/chrome-mink-driver": "^2.7",

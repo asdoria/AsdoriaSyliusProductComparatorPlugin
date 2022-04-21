@@ -1,0 +1,9 @@
+sylius_shop_comparator:
+    path: /{_locale}/comparator
+    methods: [GET]
+    defaults:
+        _controller: Asdoria\SyliusProductComparatorPlugin\Controller\Shop\ComparatorController:indexAction
+    requirements:
+        _locale: ^[A-Za-z]{2,4}(_([A-Za-z]{4}|[0-9]{3}))?(_([A-Za-z]{2}|[0-9]{3}))?$
+    options:
+        expose: true

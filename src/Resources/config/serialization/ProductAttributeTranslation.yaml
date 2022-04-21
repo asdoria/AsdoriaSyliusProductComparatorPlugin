@@ -1,0 +1,18 @@
+Sylius\Component\Product\Model\ProductAttributeTranslation:
+    attributes:
+        id:
+            groups:
+                - admin:product_attribute:read
+        name:
+            groups:
+                - shop:product_attribute:read
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        locale:
+            groups:
+                - admin:product_attribute:read
+                - admin:product_attribute:create
+                - admin:product_attribute:update
+        translatable:
+            ignore: true

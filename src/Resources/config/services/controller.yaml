@@ -1,0 +1,5 @@
+services:
+    Asdoria\SyliusProductComparatorPlugin\Controller\Shop\ComparatorController:
+        public: true
+        arguments:
+            $templatingEngine: '@twig'
