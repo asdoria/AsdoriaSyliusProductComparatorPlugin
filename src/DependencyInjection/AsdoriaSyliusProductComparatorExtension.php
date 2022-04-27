@@ -12,9 +12,8 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-final class AsdoriaSyliusProductComparatorExtension  extends Extension implements PrependExtensionInterface, ExtensionInterface
+final class AsdoriaSyliusProductComparatorExtension  extends Extension implements ExtensionInterface
 {
-    use PrependDoctrineMigrationsTrait;
     /**
      * @param array            $configs
      * @param ContainerBuilder $container
@@ -23,38 +22,5 @@ final class AsdoriaSyliusProductComparatorExtension  extends Extension implement
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function prepend(ContainerBuilder $container): void
-    {
-        $this->prependDoctrineMigrations($container);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMigrationsNamespace(): string
-    {
-        return 'Asdoria\SyliusProductComparatorPlugin\Migrations';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMigrationsDirectory(): string
-    {
-        return '@AsdoriaSyliusProductComparatorPlugin/Migrations';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getNamespacesOfMigrationsExecutedBefore(): array
-    {
-        return ['Sylius\Bundle\CoreBundle\Migrations'];
     }
 }
