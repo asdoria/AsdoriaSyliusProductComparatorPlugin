@@ -7,7 +7,7 @@
 <p align="center">Compare different products with each other</p>
 
 <p align="center">
-    <img src="doc/comparator.png" alt="Comparator">
+    <img src="doc/comparator.gif" alt="Comparator">
 </p>
 
 ## Installation
