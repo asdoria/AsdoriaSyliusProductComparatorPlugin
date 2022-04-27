@@ -14,12 +14,12 @@
                 <i class="Icon-close icon close"></i>
             </button>
             <div class="Comparator-head-product-slider" :class="product.images.length > 1 ? 'justify-between' : 'justify-around'">
-                <i v-if="product.images.length > 1" class="Icon-angle-left Comparator-head-product-slider__controls" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                <i v-if="product.images.length > 1" class="Icon-angle-left Comparator-head-product-slider__controls icon chevron left" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
                 <a :href="getProductUrl(product)" class="Comparator-head-product-slider__content">
                     <img :src="getImageUrl(product.images[getSlidersCurrentIndex(index).images])"
                          :alt="product.name" class="Comparator-product-image">
                 </a>
-                <i v-if="product.images.length > 1" class="Icon-angle-right Comparator-head-product-slider__controls" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                <i v-if="product.images.length > 1" class="Icon-angle-right Comparator-head-product-slider__controls icon chevron right" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
             </div>
             <div data-height-group="comparator-title-product">
                 <a class="Comparator-link link black" :href="getProductUrl(product)">{{ getProductNameByLocale(product) }}</a>

@@ -97,7 +97,7 @@
                     <td class="Comparator-selection-left"></td>
                     <td v-for="product in products.data"
                         class="Comparator-selection-product">
-                        <a class="Button Comparator-button ui orange fluid button" href="#">
+                        <a class="Button Comparator-button ui orange fluid button" :href="getProductUrl(product)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.add_to_selection') }}
                         </a>
                     </td>

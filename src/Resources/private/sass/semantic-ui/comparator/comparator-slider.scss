@@ -1,0 +1,43 @@
+/*
+ * [ comparator / slider ]
+ */
+
+// -----------------------------------------------------------------------------
+
+.Comparator-head-product-slider {
+    display: flex;
+    align-items: center;
+
+    &.justify-around {
+        justify-content: space-around;
+    }
+
+    &.justify-between {
+        justify-content: space-between;
+    }
+
+    .Comparator-head-product-slider__content {
+        display: block;
+        padding: 0.5rem;
+        background-color: white;
+
+        img {
+            object-fit: cover;
+            margin: 0 auto;
+        }
+    }
+
+    .Comparator-head-product-slider__controls {
+        cursor: pointer;
+    }
+}
+
+.Comparator-data-product-slider__controls {
+    display: flex;
+    justify-content: space-around;
+    margin: 0.5rem 0;
+
+    i {
+        cursor: pointer;
+    }
+}

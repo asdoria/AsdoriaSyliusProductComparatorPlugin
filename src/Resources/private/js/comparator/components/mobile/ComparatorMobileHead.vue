@@ -14,13 +14,13 @@
                     <img :src="getImageUrl(product.images[getSlidersCurrentIndex(index).images])"
                          :alt="product.name" class="Comparator-product-image">
                 </a>
-                <div class="Comparator-data-product-slider__controls">
-                    <i v-if="product.images.length > 1" class="Icon-angle-left" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
-                    <i v-if="product.images.length > 1" class="Icon-angle-right" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                <div v-if="product.images.length > 1" class="Comparator-data-product-slider__controls">
+                    <i class="Icon-angle-left icon chevron left" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                    <i class="Icon-angle-right icon chevron right" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
                 </div>
             </div>
             <div data-height-group="comparator-title-product">
-                <a class="Comparator-link link black" :href="getProductUrl(product)">{{ getProductNameByLocale(product) }}</a>
+                <a class="Comparator-link link black text bold" :href="getProductUrl(product)">{{ getProductNameByLocale(product) }}</a>
                 <p class="Comparator-data-product-code text very small light">{{ product.code }}</p>
             </div>
             <p class="Comparator-data-product-price ui tertiary segment">

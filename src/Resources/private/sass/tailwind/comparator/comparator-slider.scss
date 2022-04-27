@@ -7,6 +7,22 @@
 // 1. images
 ///////////////////////////////
 
+.Comparator-head-product-slider {
+    @apply flex items-center;
+
+    .Comparator-head-product-slider__content {
+        @apply p-2 bg-white block;
+
+        img {
+            @apply object-cover mx-auto;
+        }
+    }
+
+    .Comparator-head-product-slider__controls {
+        @apply cursor-pointer text-3xl;
+    }
+}
+
 .Comparator-data-product-slider {
     @apply flex flex-col items-center flex-1;
 
@@ -24,6 +40,12 @@
         i {
             @apply cursor-pointer text-3xl;
         }
+    }
+}
+
+@media screen and(max-width: 1024px) {
+    .Comparator-data-product-slider__controls {
+        @apply w-full;
     }
 }
 
