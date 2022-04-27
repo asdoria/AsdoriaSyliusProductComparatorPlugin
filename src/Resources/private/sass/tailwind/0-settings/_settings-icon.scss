@@ -5,12 +5,14 @@
 // -----------------------------------------------------------------------------
 
 $icons: (
-        arrow-right: 'e90d',
-        angle-right: 'e910',
-        angle-left: 'e911',
+        arrow-right: 'e900',
+        angle-right: 'e901',
+        angle-left: 'e902',
 
-        star: 'e914',
-        close : 'e92e',
+        star: 'e903',
+        close: 'e904',
+        copy: 'e905',
+        compare: 'e906',
 );
 
 @function str-unicode($str) {

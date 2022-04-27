@@ -1,28 +1,28 @@
 <template>
-    <div class="Comparator-tooltip py-3 leading-none" :class="isTablet() && 'mx-4'">
+    <div class="Comparator-tooltip Comparator-data-value" :class="isTablet() && 'mx-4'">
         <div v-if="reviews.length">
             <span class="Comparator-tooltip-trigger">
                 <template v-for="i in 5">
-                    <i :class="i - 1 < product.averageRating ? 'text-yellow-500':'opacity-50'"
-                       class="Icon-star"></i>
+                    <i :class="i - 1 < product.averageRating ? 'text-yellow-500 text yellow':'opacity-50'"
+                       class="Icon-star icon star marged-none"></i>
                 </template>
                 {{ product.averageRating }}/5
             </span>
-            <div class="Comparator-tooltip-target">
-                <i v-if="product.reviews.length > 1" class="Icon-angle-left cursor-pointer"
+            <div class="Comparator-tooltip-target Comparator-review-slider">
+                <i v-if="product.reviews.length > 1" class="Icon-angle-left Comparator-review-slider__controls icon chevron left"
                    @click="decrementSliderCurrentIndexReviews(index, product.reviews.length)"></i>
-                <div class="flex-grow mx-4">
-                    <div class="mb-4">
+                <div class="Comparator-review-slider__content">
+                    <div class="Comparator-review-slider__div">
                         <template v-for="i in 5">
-                            <i :class="i - 1 < reviews[getSlidersCurrentIndex(index).reviews].rating ? 'text-yellow-500':'opacity-50'"
-                               class="Icon-star"></i>
+                            <i :class="i - 1 < reviews[getSlidersCurrentIndex(index).reviews].rating ? 'text-yellow-500 text yellow':'opacity-50'"
+                               class="Icon-star icon star marged-none"></i>
                         </template> -
-                        <span class="italic">{{ reviews[getSlidersCurrentIndex(index).reviews].title }}</span>
-                        <hr class="mt-1">
+                        <span class="Comparator-review-slider__span">{{ reviews[getSlidersCurrentIndex(index).reviews].title }}</span>
+                        <hr>
                     </div>
                     <p>"{{ reviews[getSlidersCurrentIndex(index).reviews].comment }}"</p>
                 </div>
-                <i v-if="product.reviews.length > 1" class="Icon-angle-right cursor-pointer"
+                <i v-if="product.reviews.length > 1" class="Icon-angle-right Comparator-review-slider__controls icon chevron right"
                    @click="incrementSliderCurrentIndexReviews(index, product.reviews.length)"></i>
             </div>
         </div>
@@ -31,9 +31,10 @@
 
 <script>
 import { isTablet } from '../common/utils/viewport'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue';
 import Api from '../api/api'
 import useStore from '../store/store'
+import $ from 'jquery'
 
 export default {
     name: 'Review',

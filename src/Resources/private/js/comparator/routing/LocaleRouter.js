@@ -36,6 +36,12 @@ class LocaleRouter {
      * @returns {*}
      */
     generate(routeName, params = {}, hasLocaleSuffix = false) {
+        const route = LocaleRouter.router.getRoute(routeName);
+
+        if (route.requirements._locale) {
+            params._locale = LocaleRouter.getLocale();
+        }
+
         return LocaleRouter.router.generate(
             this.replaceRouteNameParams(routeName) + (hasLocaleSuffix ? '.' + LocaleRouter.locale : ''),
             params,
@@ -54,6 +60,10 @@ class LocaleRouter {
         }
 
         return routeName;
+    }
+
+    getRoute(route) {
+        return LocaleRouter.router.getRoute(route)
     }
 }
 

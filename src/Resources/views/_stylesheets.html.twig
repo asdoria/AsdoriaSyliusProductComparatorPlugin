@@ -1,1 +1,5 @@
-<link rel="stylesheet" href="{{ asset('bundles/asdoriaproductcomparator/shop-product-comparator.min.css') }}">
+{% if tailwind %}
+    <link rel="stylesheet" href="{{ asset('shop-product-comparator-tailwind.min.css', 'asdoria_sylius_product_comparator_plugin') }}">
+{% else %}
+    <link rel="stylesheet" href="{{ asset('shop-product-comparator-semantic-ui.min.css', 'asdoria_sylius_product_comparator_plugin') }}">
+{% endif %}

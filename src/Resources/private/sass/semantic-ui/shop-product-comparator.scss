@@ -1,0 +1,138 @@
+@import "comparator/comparator.scss";
+
+// 0. RESET
+///////////////////////////////
+
+button {
+    border: none;
+    background-color: white;
+}
+
+// 1. utils
+///////////////////////////////
+
+.text {
+    &.bold {
+        font-weight: 700;
+    }
+
+    &.light {
+        font-weight: 300;
+    }
+
+    &.upper {
+        text-transform: uppercase;
+    }
+
+    &.very.small {
+        font-size: 0.75rem;
+    }
+
+    &.yellow {
+        color: rgb(234 179 8);
+    }
+
+    &.black {
+        color: black;
+    }
+}
+
+.link {
+    &.black {
+        color: #2E2E2E;
+        transition: color 0.25s ease;
+
+        &:hover {
+            color: #AAAAAA;
+        }
+    }
+}
+
+.marged {
+    &-bottom {
+        margin-bottom: 1.5em;
+    }
+
+    &-right {
+        &-small {
+            margin-right: 0.25em;
+        }
+    }
+
+    &-none {
+        margin: 0 !important;
+    }
+}
+
+.icon.close {
+    cursor: pointer;
+}
+
+// 2. table
+///////////////////////////////
+
+.ui.celled.table {
+    th {
+        background-color: white;
+    }
+    tr td, tr th {
+        border-top: none;
+        border-bottom: none;
+    }
+    tbody tr:not(:first-child) {
+        &:nth-child(even) td {
+            background-color: #eef9ff;
+
+            &:first-child {
+                background-color: #c9eafe;
+            }
+        }
+
+        &:nth-child(odd) td:first-child {
+            background-color: #b4e1fd;
+        }
+    }
+}
+
+@media screen and(max-width: 1024px) {
+    .ui.celled.table {
+        border-collapse: separate;
+
+        tbody tr {
+            position: relative;
+            display: flex;
+            width: 100%;
+
+            &:first-child td:first-child {
+                background-color: rgb(68 68 68);
+                color: white;
+            }
+
+            td {
+                background-color: #eef9ff;
+
+                &:first-child {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    padding: 0.5rem 0;
+                    text-align: center;
+
+                    p {
+                        position: sticky;
+                        left: 0;
+                    }
+                }
+
+                &:not(:first-child) {
+                    width: 100%;
+                    padding-top: 2.5rem;
+
+                    &:not(:last-child) {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}

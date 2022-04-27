@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+@import "import-tailwind";
+
+@import
+'0-settings/settings-icon',
+'0-settings/settings-path'
+;
+
+@import
+'1-base/base-font'
+;
+
+@import
+'2-components/components-icon'
+;
+
+@import
+'4-objects/objects-container',
+'4-objects/objects-grid'
+;
+
+@import "comparator/comparator";

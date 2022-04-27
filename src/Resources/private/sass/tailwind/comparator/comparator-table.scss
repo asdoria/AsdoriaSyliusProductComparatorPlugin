@@ -1,0 +1,171 @@
+/*
+ * [ comparator / table ]
+ */
+
+// -----------------------------------------------------------------------------
+
+.Comparator-table {
+    @apply border border-tertiary-light;
+
+    tr {
+        td:not(:first-child):not(:last-child),
+        th:not(:first-child):not(:last-child) {
+            @apply border-r border-tertiary-light;
+        }
+
+        &:not(:first-child):nth-child(even) {
+            td:first-child {
+                @apply bg-primary-light;
+            }
+
+            td:not(:first-child) {
+                @apply bg-primary-lighter;
+            }
+        }
+
+        &:not(:first-child):nth-child(odd) {
+            td:first-child {
+                @apply bg-primary-medium;
+            }
+        }
+
+        .Comparator-data-features {
+            @apply bg-primary-base text-white;
+
+            .Comparator-data-features__p {
+                @apply py-3 leading-none uppercase font-bold;
+            }
+        }
+
+        .Comparator-data-value {
+            @apply py-3 leading-none;
+        }
+
+        .Comparator-selection-product {
+            @apply py-8;
+        }
+    }
+}
+
+@media screen and(max-width: 1024px) {
+    .Comparator-table {
+        @apply relative;
+
+        tr {
+            @apply flex w-full relative;
+
+            td:not(:first-child) {
+                @apply bg-primary-lighter;
+            }
+
+            .Comparator-data-left {
+                @apply absolute left-0 right-0 text-center py-2;
+            }
+
+            .Comparator-data-name {
+                @apply sticky left-0 font-bold;
+            }
+
+            .Comparator-data-product {
+                @apply w-full pt-10;
+
+                &:not(:last-child) {
+                    @apply mr-2;
+                }
+            }
+
+            .Comparator-data-value {
+                @apply px-4;
+            }
+
+            .Comparator-selection-left {
+                @apply absolute left-0 right-0 py-2;
+            }
+
+            .Comparator-selection-product {
+                @apply bg-primary-lighter w-full pt-10 pb-0 px-4;
+            }
+
+            .Comparator-selection-product:not(:last-child) {
+                @apply mr-2;
+            }
+        }
+
+        /*----- Row: specifications -----*/
+        tr:first-child {
+            .Comparator-data-left {
+                @apply bg-gray-700 text-white;
+            }
+
+            .Comparator-data-product {
+                @apply text-left p-5 text-center flex flex-col;
+
+                .Comparator-data-product__button {
+                    @apply mb-8 text-xl font-bold;
+                }
+
+                [data-height-group="comparator-title-product"] {
+                    .Comparator-link {
+                        @apply block font-bold mb-2;
+                    }
+
+                    .Comparator-data-product-code {
+                        @apply text-xs pb-4 font-light;
+                    }
+                }
+
+                .Comparator-data-product-price {
+                    @apply bg-tertiary-base rounded-lg py-2;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(min-width: 1025px) {
+    .Comparator-head-product {
+        @apply p-5 text-center;
+
+        .Comparator-head-product__button {
+            @apply mb-8 text-xl font-bold;
+        }
+
+        .Comparator-head-product-slider {
+            @apply flex items-center;
+
+            .Comparator-head-product-slider__content {
+                @apply p-2 bg-white block;
+
+                img {
+                    @apply object-cover mx-auto;
+                }
+            }
+
+            .Comparator-head-product-slider__controls {
+                @apply cursor-pointer text-3xl;
+            }
+        }
+
+        [data-height-group="comparator-title-product"] {
+            .Comparator-link {
+                @apply block font-bold mb-2;
+            }
+
+            .Comparator-head-product-code {
+                @apply text-xs pb-4 font-light;
+            }
+        }
+
+        .Comparator-head-product-price {
+            @apply bg-tertiary-base rounded-lg py-2;
+        }
+    }
+
+    .Comparator-table td {
+        @apply px-8 align-top;
+    }
+
+    .Comparator-data-name {
+        @apply py-3 leading-none font-bold;
+    }
+}

@@ -1,33 +1,32 @@
 <template>
-    <tr class="flex w-full relative">
-        <td class="absolute left-0 right-0 bg-gray-700 text-white text-center py-2">
-            <p class="sticky left-0 font-bold" style="width: calc(100vw - 48px)">
-                {{ Translator.trans('app.comparator.specifications') }}</p>
+    <tr>
+        <td class="Comparator-data-left">
+            <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
+                {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.specifications') }}</p>
         </td>
         <td v-for="(product, index) in products.data"
-            class="w-full not-last:mr-2 bg-gray-50 text-md text-left p-5 text-center pt-12 flex flex-col">
-            <button @click="removeProduct(product.code)" class="mb-8">
-                <i class="Icon-close text-xl font-bold"></i>
+            class="Comparator-data-product center aligned">
+            <button @click="removeProduct(product.code)" class="Comparator-data-product__button marged-bottom">
+                <i class="Icon-close icon close"></i>
             </button>
-            <div class="flex flex-col items-center flex-1">
-                <a :href="getProductUrl(product)" class="p-2 bg-white block flex flex-col">
+            <div class="Comparator-data-product-slider">
+                <a :href="getProductUrl(product)" class="Comparator-data-product-slider__content">
                     <img :src="getImageUrl(product.images[getSlidersCurrentIndex(index).images])"
-                         :alt="product.name"
-                         class="object-cover w-full h-full">
+                         :alt="product.name" class="Comparator-product-image">
                 </a>
-                <div class="flex justify-around">
-                    <i v-if="product.images.length > 1" class="Icon-angle-left cursor-pointer text-3xl" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
-                    <i v-if="product.images.length > 1" class="Icon-angle-right cursor-pointer text-3xl" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                <div class="Comparator-data-product-slider__controls">
+                    <i v-if="product.images.length > 1" class="Icon-angle-left" @click="decrementSliderCurrentIndexImages(index, product.images.length)"></i>
+                    <i v-if="product.images.length > 1" class="Icon-angle-right" @click="incrementSliderCurrentIndexImages(index, product.images.length)"></i>
                 </div>
             </div>
             <div data-height-group="comparator-title-product">
-                <a class="Comparator-link block font-bold mb-2" :href="getProductUrl(product)">{{ product.name }}</a>
-                <p class="text-xs pb-4 font-light">{{ product.code }}</p>
+                <a class="Comparator-link link black" :href="getProductUrl(product)">{{ getProductNameByLocale(product) }}</a>
+                <p class="Comparator-data-product-code text very small light">{{ product.code }}</p>
             </div>
-            <p class="bg-base-gray rounded-lg py-2">
+            <p class="Comparator-data-product-price ui tertiary segment">
                 {{ Object.values(product.variants)[0].price/100 }}
                 {{ currencyCode }}
-                {{ withTax ? Translator.trans('app.comparator.ttc') : Translator.trans('app.comparator.ht') }}
+                {{ withTax ? Translator.trans('asdoria_sylius_comparator_bundle.ui.ttc') : Translator.trans('asdoria_sylius_comparator_bundle.ui.ht') }}
             </p>
         </td>
     </tr>
@@ -58,7 +57,7 @@ export default {
         }
     },
     setup ({ currencyCode, withTax }) {
-        const { getProductUrl, getPrice, getImageUrl } = useProductHelper();
+        const { getProductNameByLocale, getProductUrl, getPrice, getImageUrl } = useProductHelper();
 
         const { getSlidersCurrentIndex, incrementSliderCurrentIndexImages, decrementSliderCurrentIndexImages } = useStore().sliders()
 
@@ -68,6 +67,7 @@ export default {
             getSlidersCurrentIndex,
             incrementSliderCurrentIndexImages,
             decrementSliderCurrentIndexImages,
+            getProductNameByLocale,
             getProductUrl,
             getPrice,
             getImageUrl,

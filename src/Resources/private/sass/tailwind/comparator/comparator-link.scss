@@ -1,0 +1,34 @@
+/*
+ * [ comparator / link ]
+ */
+
+// -----------------------------------------------------------------------------
+
+.Comparator-link {
+    @apply text-black #{'!important'};
+    transition: color 0.25s ease;
+
+    &:hover {
+        @apply text-tertiary-base #{'!important'};
+    }
+
+    &.Comparator-link__main-taxon {
+        @apply text-left block capitalize;
+    }
+
+    &.Comparator-link__secondary-taxons {
+        @apply text-left capitalize inline-block px-0 pt-0 pb-1;
+
+        span {
+            @apply pr-1 text-black;
+        }
+    }
+}
+
+@media screen and(min-width: 1025px) {
+    .Comparator-link {
+        &.Comparator-link__main-taxon {
+            @apply px-0;
+        }
+    }
+}

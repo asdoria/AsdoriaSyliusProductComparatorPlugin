@@ -5,6 +5,22 @@
         "/bundles/asdoriasyliusproductcomparatorplugin/shop.min.js"
       ]
     },
+    "shop-product-comparator-tailwind": {
+      "css": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.min.css"
+      ],
+      "js": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.min.js"
+      ]
+    },
+    "shop-product-comparator-semantic-ui": {
+      "css": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.min.css"
+      ],
+      "js": [
+        "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.min.js"
+      ]
+    },
     "shop-product-comparator": {
       "css": [
         "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.css"

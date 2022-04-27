@@ -1,0 +1,18 @@
+asdoria_sylius_comparator_bundle:
+    ui:
+        comparator: Comparateur
+        compare: Comparer
+        loading: Chargement...
+        added: Ajouté
+        no_product: Aucun produit à comparer
+        back: Retour
+        header_title: Sélectionnez vos produits pour les comparer
+        specifications: Spécifications
+        features: Caractéristiques
+        ratings: Notes
+        description: Description
+        main_taxon: Catégorie principale
+        secondary_taxons: Catégories secondaires
+        add_to_selection: Ajouter à ma sélection
+        ttc: TTC
+        ht: HT

@@ -8,30 +8,26 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {{ sylius_template_event('asdoria.shop.product_comparator.stylesheets') }}
 {% endblock %}
 
 {% block content %}
-    <div class="o-container">
-        <div class="flex justify-center my-20">
+    <div class="Comparator">
+        <div class="Comparator-header">
             <h1 class="Comparator-title">
-                {{ 'sylius.ui.comparator'|trans }}
+                {{ 'asdoria_sylius_comparator_bundle.ui.comparator'|trans }}
             </h1>
         </div>
         {% set config = {
             currencyCode: sylius.currencyCode,
             withTax: true,
-            availableAttributes: [53, 268]
+            availableAttributes: [26, 42]
         } %}
         <div id="vm-comparator" data-config="{{ config|serialize }}">
-            <div class="flex-flow-centerX">
-                <span class="Comparator-loader"></span>
-            </div>
+            <span class="Comparator-loader"></span>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    {{ sylius_template_event('asdoria.shop.product_comparator.javascripts') }}
 {% endblock %}

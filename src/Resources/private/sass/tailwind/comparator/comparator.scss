@@ -1,0 +1,106 @@
+/*
+ * [ comparator ]
+ */
+
+// -----------------------------------------------------------------------------
+
+@import
+"comparator-button",
+"comparator-link",
+"comparator-loader",
+"comparator-slider",
+"comparator-table",
+"comparator-tooltip"
+;
+
+// 0. utils
+///////////////////////////////
+
+.Comparator {
+    @apply o-container my-14;
+}
+
+.Comparator-header {
+    @apply flex justify-center mb-14;
+}
+
+.Comparator-title {
+    @apply text-center block text-3xl;
+
+    &::before {
+        @apply absolute w-10 h-10 border-l-4 border-t-4 border-secondary-base;
+        content: "";
+        transform: translate(-50%, -10px);
+    }
+}
+
+@media screen and(max-width: 1024px) {
+    .Comparator-subheader {
+        @apply o-full mb-8 font-bold;
+
+        .Comparator-subheader-content {
+            @apply text-xl text-left bg-primary-base p-8 text-white font-heading;
+
+            .Comparator-subheader-content__div {
+                @apply w-6 h-6 rounded-full bg-white flex justify-center items-center flex-wrap mt-4;
+
+                i {
+                    @apply text-primary-base block;
+                }
+            }
+        }
+    }
+
+    .Comparator-content {
+        @apply overflow-x-auto max-w-full relative;
+    }
+}
+
+@media screen and(min-width: 1025px) {
+    .Comparator-subheader {
+        @apply text-xl text-left bg-primary-base p-8 text-white text-lg font-heading align-top;
+
+        .Comparator-subheader-content__div {
+            @apply w-6 h-6 rounded-full bg-white flex justify-center items-center flex-wrap mt-4;
+
+            i {
+                @apply text-primary-base block font-bold;
+            }
+        }
+    }
+}
+
+.Comparator-no-product {
+    @apply px-4;
+
+    .Comparator-no-product__p {
+        @apply pb-4 text-xl;
+    }
+}
+
+// 1. attributes
+///////////////////////////////
+
+@media screen and(max-width: 1024px) {
+    .Comparator-attribute-product {
+        @apply bg-primary-lighter;
+    }
+}
+
+.Comparator-attribute .Comparator-attribute-product:not(:last-child) {
+    @apply border-r border-tertiary-light;
+}
+
+.js-comparator-string-to-html {
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+    }
+}
+
+// 2. image
+///////////////////////////////
+
+.Comparator-product-image {
+    height: 175px;
+}

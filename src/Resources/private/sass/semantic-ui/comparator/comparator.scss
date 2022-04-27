@@ -1,0 +1,60 @@
+@import
+"comparator-tooltip",
+"comparator-loader"
+;
+
+.Comparator-title {
+    display: block;
+    text-align: center;
+    font-size: 1.875rem;
+    margin: 2rem 0 !important;
+
+    &::before {
+        content: "";
+        position: absolute;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-left-width: 4px;
+        border-top-width: 4px;
+        border-color: #ff8828;
+        border-left-style: solid;
+        border-top-style: solid;
+        transform: translate(-50%, -10px);
+    }
+}
+
+.Comparator-product-image {
+    height: 175px;
+}
+
+.Comparator-content {
+    overflow-x: auto;
+}
+
+.Comparator-button-fixed {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 9999;
+    background-color: #3EA7E3;
+    padding: 1rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.25s ease;
+
+    &:hover {
+        color: white;
+        background-color: #2D96D2;
+    }
+
+    .Comparator-button-fixed__icon {
+        font-size: 1.25rem;
+    }
+
+    .Comparator-button-fixed__div {
+        font-size: 0.75rem;
+    }
+}

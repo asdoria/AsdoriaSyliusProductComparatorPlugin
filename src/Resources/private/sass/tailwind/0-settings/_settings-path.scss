@@ -1,0 +1,11 @@
+/*
+ * [ settings / path ]
+ */
+
+// -----------------------------------------------------------------------------
+
+$fonts-path: '../../../fonts/';
+
+@function font($file) {
+    @return url($fonts-path + $file);
+}

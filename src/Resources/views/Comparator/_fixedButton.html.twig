@@ -1,9 +1,9 @@
 {% if current_route is not same as('sylius_shop_comparator') %}
     <a href="{{ path('sylius_shop_comparator') }}"
-       class="fixed top-1/2 transform -translate-y-1/2 z-max bg-primary-base p-4 text-white">
-        <i class="Icon-compare"></i>
-        <div class="text-xs">
-            {{ 'sylius.ui.compare'|trans }}
+       class="Comparator-button-fixed">
+        <i class="Icon-compare Comparator-button-fixed__icon icon th"></i>
+        <div class="Comparator-button-fixed__div">
+            {{ 'asdoria_sylius_comparator_bundle.ui.compare'|trans }}
         </div>
     </a>
 {% endif %}

@@ -1,0 +1,41 @@
+/*
+ * [ comparator / button ]
+ */
+
+// -----------------------------------------------------------------------------
+
+.Comparator-button {
+    @apply bg-secondary-base text-white #{'!important'};
+    display: block;
+    padding: 0.75rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+@media screen and(max-width: 1024px) {
+    .Comparator-button {
+        padding: 0.75rem 1rem;
+    }
+}
+
+.Comparator-button-add {
+    @apply bg-secondary-base block py-2 px-4 normal-case;
+}
+
+.Comparator-button-fixed {
+    @apply fixed top-1/2 left-0 transform -translate-y-1/2 z-max bg-primary-base p-4 text-white flex flex-col items-center;
+    transition: all 0.25s ease;
+
+    &:hover {
+        @apply bg-primary-hover;
+    }
+
+    .Comparator-button-fixed__icon {
+        @apply text-xl;
+    }
+
+    .Comparator-button-fixed__div {
+        @apply text-xs;
+    }
+}

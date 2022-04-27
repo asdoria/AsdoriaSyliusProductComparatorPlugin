@@ -1,0 +1,40 @@
+/*
+ * [ objects / container ]
+ */
+
+// -----------------------------------------------------------------------------
+
+@layer components {
+    .o-container {
+        @apply relative px-4 mx-auto w-full max-w-container;
+
+        &--md{
+            @apply max-w-md;
+        }
+
+        &--864{
+            @apply max-w-864;
+        }
+
+
+        &--646{
+            @apply max-w-646;
+        }
+
+        &--sm{
+            @apply max-w-sm;
+        }
+
+        &--xs{
+            @apply max-w-xs;
+        }
+
+        &--left {
+            @apply mr-auto ml-0;
+        }
+
+        &--right {
+            @apply ml-auto mr-0;
+        }
+    }
+}

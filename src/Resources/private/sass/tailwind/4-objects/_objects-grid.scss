@@ -1,0 +1,108 @@
+/*
+ * [ objects / grid ]
+ */
+
+// -----------------------------------------------------------------------------
+
+@use "sass:math";
+
+/* purgecss start ignore */
+.o-grid {
+    min-width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    margin-left: -16px;
+    margin-right: -16px;
+
+    @layer components {
+        &#{&}--dirY {
+            flex-flow: column wrap;
+        }
+
+        &#{&}--collapse {
+            @apply mx-0;
+        }
+
+        &#{&}--tight {
+            margin-left: -8px;
+            margin-right: -8px;
+        }
+
+        &#{&}--relaxed {
+            margin-left: -24px;
+            margin-right: -24px;
+        }
+
+        &#{&}--loose {
+            margin-left: -32px;
+            margin-right: -32px;
+        }
+
+        &#{&}--center {
+            justify-content: center;
+            align-items: center;
+        }
+
+        &#{&}--Hcenter {
+            justify-content: center;
+        }
+
+        &#{&}--spaced {
+            @apply -mt-2;
+        }
+    }
+}
+
+@layer components {
+    .o-full {
+        width: 100vw;
+        margin-right: calc(-50vw + 50%);
+        margin-left: calc(-50vw + 50%);
+    }
+}
+
+[class^="o-col"],
+[class*="o-col"] {
+    /* purgecss ignore current */
+    width: 100%;
+    /* purgecss ignore current */
+    min-height: 1px;
+    /* purgecss ignore current */
+    @apply relative px-4;
+
+    @layer components {
+        .o-grid.o-grid--collapse > & {
+            @apply px-0;
+        }
+
+        .o-grid.o-grid--stretch > & > * {
+            height: 100%;
+        }
+
+        .o-grid.o-grid--tight > & {
+            @apply px-2;
+        }
+
+        .o-grid.o-grid--relaxed > & {
+            @apply px-6;
+        }
+
+        .o-grid.o-grid--loose > & {
+            @apply px-8;
+        }
+
+        .o-grid.o-grid--spaced > & {
+            @apply py-2;
+        }
+    }
+}
+
+@layer components {
+    @for $i from 1 through 12 {
+        .o-col-#{$i} {
+            flex: 0 0 percentage(math.div($i, 12));
+            max-width: percentage(math.div($i, 12));
+        }
+    }
+}
+/* purgecss end ignore */

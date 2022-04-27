@@ -28,8 +28,12 @@ class Router {
      * @returns {*}
      */
     generate (route, params = {}) {
-        const routeName = Router.routing.generate(route, params, true)
+        const routeName = Router.routing.generate(route, params, false)
         return routeName
+    }
+
+    getRoute(route) {
+      return Router.routing.getRoute(route)
     }
 }
 

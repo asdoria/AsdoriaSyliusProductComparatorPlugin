@@ -1,5 +1,11 @@
 {
   "bundles/asdoriasyliusproductcomparatorplugin/shop.js": "/bundles/asdoriasyliusproductcomparatorplugin/shop.min.js",
+  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.css": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.min.css",
+  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.js": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-tailwind.min.js",
+  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.css": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.min.css",
+  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.js": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator-semantic-ui.min.js",
   "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.css": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.css",
-  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.js": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.js"
+  "bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.js": "/bundles/asdoriasyliusproductcomparatorplugin/shop-product-comparator.min.js",
+  "bundles/asdoriasyliusproductcomparatorplugin/fonts/icomoon.woff": "/bundles/asdoriasyliusproductcomparatorplugin/fonts/icomoon.52b826c7.woff",
+  "bundles/asdoriasyliusproductcomparatorplugin/fonts/icomoon.ttf": "/bundles/asdoriasyliusproductcomparatorplugin/fonts/icomoon.8d206967.ttf"
 }

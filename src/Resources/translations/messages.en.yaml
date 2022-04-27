@@ -1,0 +1,18 @@
+asdoria_sylius_comparator_bundle:
+    ui:
+        comparator: Comparator
+        compare: Compare
+        loading: Loading...
+        added: Added
+        no_product: No product to compare
+        back: Back
+        header_title: Select your products to compare
+        specifications: Specifications
+        features: Features
+        ratings: Ratings
+        description: Description
+        main_taxon: Main taxon
+        secondary_taxons: Secondary taxons
+        add_to_selection: Add to my selection
+        ttc: TTC
+        ht: HT

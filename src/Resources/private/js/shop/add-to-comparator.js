@@ -3,7 +3,7 @@ import {getProductItems, removeInvalidItems, setProductItems} from "../comparato
 import {createStorageItem} from "../comparator/helpers/product-helper";
 
 export default () => {
-    document.querySelectorAll('a.add-to-comparator[data-product-code]')
+    document.querySelectorAll('a.js-add-to-comparator[data-product-code]')
         .forEach(i => init(i));
 }
 
@@ -17,12 +17,12 @@ const init = el => {
     let comparatorIds = getProductItems();
 
     if (comparatorIds.find(item => item.code === productCode)) {
-        el.innerText = Translator.trans('app.comparator.added')
+        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.added')
     }
 
     el.addEventListener('click', async e => {
         e.preventDefault();
-        el.innerText = Translator.trans('sylius.ui.loading')
+        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.loading')
 
         comparatorIds = getProductItems();
 
@@ -34,7 +34,7 @@ const init = el => {
         await removeInvalidItems();
 
         updatedNbr()
-        el.innerText = Translator.trans('app.comparator.added')
+        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.added')
     });
 };
 

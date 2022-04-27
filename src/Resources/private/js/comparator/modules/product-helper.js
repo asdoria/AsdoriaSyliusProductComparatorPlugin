@@ -1,35 +1,36 @@
-import { router as LocaleRouter } from '../routing/LocaleRouter'
-import { ROUTES_CATALOG, ROUTES_FOS } from '../routing/routes'
+import { router as LocaleRouter } from '../routing/LocaleRouter';
+import { ROUTES_CATALOG, ROUTES_FOS } from '../routing/routes';
+import { getDocumentLocale } from '../common/helpers/locale';
 
-export default function useProductHelper () {
+export default function useProductHelper() {
     /**
      *
      * @param attributeCode
      * @param product
      * @returns {null}
      */
-    function getAttributeValue (attributeCode, product) {
-        if (!product.attributes) return null
+    function getAttributeValue(attributeCode, product) {
+        if (!product.attributes) return null;
 
-        const { value = null } = product.attributes.find(attr => attr.code === attributeCode) || {}
-        return value
+        const { value = null } = product.attributes.find(attr => attr.code === attributeCode) || {};
+        return value;
     }
 
-    function getAttributeValueByLocale (attributeValue) {
-        if (!attributeValue) return null
+    function getAttributeValueByLocale(attributeValue) {
+        if (!attributeValue) return null;
 
-        const _locale = LocaleRouter.getLocale()
-        return attributeValue[_locale]
+        const _locale = getDocumentLocale();
+        return attributeValue[_locale];
     }
 
-    function getAttributeNameByLocale (attribute) {
-        if (!attribute) return null
+    function getAttributeNameByLocale(attribute) {
+        if (!attribute) return null;
         try {
-            const _locale                                   = LocaleRouter.getLocale()
-            const { translations: { [_locale]: { name } } } = attribute
-            return name
+            const _locale                                   = getDocumentLocale();
+            const { translations: { [_locale]: { name } } } = attribute;
+            return name;
         } catch (e) {
-            return null
+            return null;
         }
     }
 
@@ -39,12 +40,12 @@ export default function useProductHelper () {
      * @param product
      * @returns {*}
      */
-    function getPictograms (group, product) {
-        if (!product.productPictograms) return null
+    function getPictograms(group, product) {
+        if (!product.productPictograms) return null;
 
-        const pictograms = product.productPictograms.filter(pict => pict.group === group) || []
+        const pictograms = product.productPictograms.filter(pict => pict.group === group) || [];
 
-        return pictograms.sort((a, b) => a.position - b.position)
+        return pictograms.sort((a, b) => a.position - b.position);
     }
 
     /**
@@ -52,13 +53,21 @@ export default function useProductHelper () {
      * @param productImg
      * @returns {string|*}
      */
-    function getImageUrl (productImg) {
-        if (!productImg || !productImg.path) return 'http://placehold.it/200x200'
+    function getImageUrl(productImg) {
+        if (!productImg || !productImg.path) return 'http://placehold.it/200x200';
 
         return LocaleRouter.generate(ROUTES_FOS._LIIP_FILTER, {
             'filter': 'sylius_shop_product_thumbnail',
             'path': productImg.path
-        })
+        });
+    }
+
+    function getProductNameByLocale(product) {
+        if (!product) return null;
+
+        const _locale                                         = getDocumentLocale();
+        const { translations: { [_locale]: { name: name } } } = product;
+        return name;
     }
 
     /**
@@ -66,45 +75,55 @@ export default function useProductHelper () {
      * @param product
      * @returns {*}
      */
-    function getProductUrl (product) {
-        if (!product) return null
+    function getProductUrl(product) {
+        if (!product) return null;
 
-        const _locale                                         = LocaleRouter.getLocale()
-        const { translations: { [_locale]: { slug: slug } } } = product
-        return LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_SHOW, { slug, _locale })
+        const _locale                                         = getDocumentLocale();
+        const { translations: { [_locale]: { slug: slug } } } = product;
+        return LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_SHOW, { slug });
     }
 
-    function getTaxonInfosByLocale (taxon) {
-        if (!taxon) return null
+    function getTaxonInfosByLocale(taxon) {
+        if (!taxon) return null;
 
-        const _locale                                         = LocaleRouter.getLocale()
-        const { translations: { [_locale]: { name, slug } } } = taxon
-        const url                                             = LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_INDEX, {
-            slug,
-            _locale
-        })
-        return { name, url }
+        const _locale = getDocumentLocale();
+        const {
+                  translations: {
+                      [_locale]: {
+                          name,
+                          slug
+                      }
+                  }
+              }       = taxon;
+        const url     = LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_INDEX, { slug });
+        return {
+            name,
+            url
+        };
     }
 
     /**
      *
      * @param variants
      */
-    function getVariant ({ variants = [] }) {
-        const [variant, ..._] = Object.values(variants)
+    function getVariant({ variants = [] }) {
+        const [variant, ..._] = Object.values(variants);
 
-        return variant
+        return variant;
     }
 
     /**
      *
      * @param product
      */
-    function getPrice (product) {
-        const { price }             = getVariant(product)
-        const { currency, current } = price
+    function getPrice(product) {
+        const { price } = getVariant(product);
+        const {
+                  currency,
+                  current
+              }         = price;
 
-        return currency && current ? `${ current / 100 } ${ currency }` : price
+        return currency && current ? `${current / 100} ${currency}` : price;
     }
 
     return {
@@ -113,8 +132,9 @@ export default function useProductHelper () {
         getAttributeNameByLocale,
         getPictograms,
         getImageUrl,
+        getProductNameByLocale,
         getProductUrl,
         getTaxonInfosByLocale,
         getPrice,
-    }
+    };
 }

@@ -8,12 +8,24 @@ liip_imagine:
             filters:
                 blur: [ 8 ]
                 thumbnail: { size: [ 260, 260 ], mode: outbound }
-#            post_processors:
-#                pngquant: { quality: "5-10" }
-#                jpegoptim: { strip_all: true, max: 5, progressive: true }
 
 fos_js_routing:
     routes_to_expose:
         - liip_imagine_filter
         - api_products_shop_get_item
         - api_taxa_shop_get_item
+
+api_platform:
+    mapping:
+        paths:
+            - '%kernel.project_dir%/vendor/asdoria/sylius-product-comparator-plugin/src/Resources/config/api_resources'
+
+framework:
+    serializer:
+        mapping:
+            paths: ['%kernel.project_dir%/vendor/asdoria/sylius-product-comparator-plugin/src/Resources/config/serialization']
+
+    assets:
+        packages:
+            asdoria_sylius_product_comparator_plugin:
+                base_path: '/bundles/asdoriasyliusproductcomparatorplugin'
