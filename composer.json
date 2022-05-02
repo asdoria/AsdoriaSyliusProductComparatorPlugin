@@ -14,8 +14,7 @@
         "php": "^7.4 || ^8.0",
         "sylius/sylius": "^1.10",
         "friendsofsymfony/jsrouting-bundle": "^2.8 || ^3.0",
-        "willdurand/js-translation-bundle": "^4.0",
-        "willdurand/jsonp-callback-validator": "^1.1"
+        "willdurand/js-translation-bundle": "^4.0"
     },
     "require-dev": {
         "dmore/chrome-mink-driver": "^2.7",
