@@ -1,6 +1,6 @@
 <template>
     <template v-if="!isTablet()">
-        <div v-if="!products.data.length" class="Comparator-no-product">
+        <div v-if="!products.length" class="Comparator-no-product">
             <p class="Comparator-no-product__p">{{
                     Translator.trans('asdoria_sylius_comparator_bundle.ui.no_product')
                 }}</p>
@@ -21,7 +21,7 @@
                     <p class="Comparator-data-features__p text upper bold">
                         {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.features') }}</p>
                 </td>
-                <td v-for="product in products.data"></td>
+                <td v-for="product in products"></td>
             </tr>
 
             <tr v-if="hasRating">
@@ -30,7 +30,7 @@
                             Translator.trans('asdoria_sylius_comparator_bundle.ui.ratings')
                         }}</p>
                 </td>
-                <td v-for="(product, index) in products.data">
+                <td v-for="(product, index) in products">
                     <Review :product="product" :index="index"/>
                 </td>
             </tr>
@@ -41,7 +41,7 @@
                             Translator.trans('asdoria_sylius_comparator_bundle.ui.description')
                         }}</p>
                 </td>
-                <td v-for="product in products.data">
+                <td v-for="product in products">
                     <div class="Comparator-data-value">
                         <p class="js-comparator-string-to-html line-clamp-3"
                            :data-string-value="product.description"></p>
@@ -55,10 +55,10 @@
                             Translator.trans('asdoria_sylius_comparator_bundle.ui.main_taxon')
                         }}</p>
                 </td>
-                <td v-for="product in products.data">
+                <td v-for="product in products">
                     <a class="Button Comparator-link Comparator-link__main-taxon Comparator-data-value link black"
-                       :href="getTaxonInfosByLocale(product.mainTaxon).url">
-                        {{ getTaxonInfosByLocale(product.mainTaxon).name }}
+                       :href="getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).url : '#'">
+                        {{ getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).name : 'Loading...' }}
                     </a>
                 </td>
             </tr>
@@ -69,12 +69,12 @@
                             Translator.trans('asdoria_sylius_comparator_bundle.ui.secondary_taxons')
                         }}</p>
                 </td>
-                <td v-for="product in products.data">
+                <td v-for="product in products">
                     <div class="Comparator-data-value">
                         <a v-for="(taxon, index) in product.productTaxons"
-                           :href="getTaxonInfosByLocale(taxon).url"
+                           :href="getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).url : '#'"
                            class="Button Comparator-link Comparator-link__secondary-taxons link black">
-                            {{ getTaxonInfosByLocale(taxon).name }}
+                            {{ getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).name : 'Loading...' }}
                             <span v-if="index !== product.productTaxons.length - 1" class="text black marged-right-small">|</span>
                         </a>
                     </div>
@@ -92,13 +92,13 @@
             <!--    </td>-->
             <!--</tr>-->
 
-            <tr v-for="attribute in attributes.data.filter(attr => availableAttributes.includes(attr.id))"
+            <tr v-for="attribute in attributes"
                 class="Comparator-attribute">
                 <td class="Comparator-attribute-left">
                     <p class="Comparator-data-name text bold">{{ getAttributeNameByLocale(attribute) }}</p>
                 </td>
 
-                <td v-for="product in products.data" class="Comparator-attribute-product">
+                <td v-for="product in products" class="Comparator-attribute-product">
                     <div v-if="Array.isArray(getAttributeValue(attribute.code, product))"
                          v-for="val in getAttributeValue(attribute.code, product)" class="Comparator-data-value">
                         <p class="js-comparator-string-to-html"
@@ -111,10 +111,10 @@
 
             <tr>
                 <td class="Comparator-selection-left"></td>
-                <td v-for="product in products.data" class="Comparator-selection-product">
+                <td v-for="product in products" class="Comparator-selection-product">
                     <a class="Button Comparator-button ui orange fluid button"
                        :href="getProductUrl(product)">
-                        {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.add_to_selection') }}
+                        {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.go_to_product') }}
                     </a>
                 </td>
             </tr>
@@ -123,10 +123,10 @@
         </table>
     </template>
 
-    <template v-else>
-        <ComparatorMobile :currencyCode="currencyCode" :withTax="withTax" :hasRating="hasRating"
-                          :availableAttributes="availableAttributes"/>
-    </template>
+<!--    <template v-else>-->
+<!--        <ComparatorMobile :currencyCode="currencyCode" :withTax="withTax" :hasRating="hasRating"-->
+<!--                          :availableAttributes="availableAttributes"/>-->
+<!--    </template>-->
 
 </template>
 
@@ -141,6 +141,8 @@ import ComparatorMobile from './mobile/ComparatorMobile';
 import Review from './Review';
 import { onUpdated } from 'vue';
 import useStore from '../store/store';
+import Api from '../api/api';
+
 
 export default {
     name: 'Comparator',
@@ -152,18 +154,21 @@ export default {
     props: {
         currencyCode: String,
         withTax: Boolean,
-        availableAttributes: Array
+        attributes: Array
     },
     setup({
         currencyCode,
         withTax,
-        availableAttributes
+        attributes
     }) {
+        const { setProducts, getProducts } = useStore().products()
+
         const {
                   store: storage,
                   removeProduct: removeProductFromLocalStorage,
                   clean: cleanStorage,
-                  updateProductNode
+                  updateProductNode,
+                  getProductInformations
               } = useLocalStorageProducts();
 
         const {
@@ -171,15 +176,17 @@ export default {
                   removeProduct
               } = useFetchProducts(storage.products, (products) => {
             cleanStorage(products);
-            products.forEach(p => updateProductNode(p.code, p));
+            setProducts(products)
+            for (let product of products) {
+                updateProductNode(product.code, product)
+                getProductInformations(product, attributes)
+            }
         });
 
         function remove(code) {
             removeProduct(code);
             removeProductFromLocalStorage(code);
         }
-
-        const attributes = useFetchAttributes(products);
 
         let hasRating = false;
         storage.products.forEach(product => {
@@ -204,9 +211,8 @@ export default {
         return {
             currencyCode,
             withTax,
-            availableAttributes,
-            products,
             attributes,
+            products: getProducts(),
             hasRating,
             remove,
             Translator,

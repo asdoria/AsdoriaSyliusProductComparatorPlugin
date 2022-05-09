@@ -7,10 +7,10 @@
                 <i class="Icon-arrow-right icon arrow alternate circle right"></i>
             </div>
         </th>
-        <th v-for="(product, index) in products.data"
+        <th v-for="(product, index) in products"
             class="Comparator-head-product center aligned"
             :style="getWidthCell">
-            <button @click="() => {removeProduct(product.code)}" class="Comparator-head-product__button marged-bottom">
+            <button @click="() => {removeProduct(product.code)}" class="Comparator-head-product__button marged-bottom" :aria-label="Translator.trans('asdoria_sylius_comparator_bundle.ui.remove')">
                 <i class="Icon-close icon close"></i>
             </button>
             <div class="Comparator-head-product-slider" :class="product.images.length > 1 ? 'justify-between' : 'justify-around'">
@@ -50,7 +50,7 @@ export default {
     computed: {
         getWidthCell () {
             return {
-                width: 100 / ([...this.products.data].length + 1) + '%',
+                width: 100 / ([...this.products].length + 1) + '%',
             }
         }
     },

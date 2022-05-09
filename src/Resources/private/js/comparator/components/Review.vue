@@ -9,8 +9,8 @@
                 {{ product.averageRating }}/5
             </span>
             <div class="Comparator-tooltip-target Comparator-review-slider">
-                <i v-if="product.reviews.length > 1" class="Icon-angle-left Comparator-review-slider__controls icon chevron left"
-                   @click="decrementSliderCurrentIndexReviews(index, product.reviews.length)"></i>
+                <i v-if="reviews.length > 1" class="Icon-angle-left Comparator-review-slider__controls icon chevron left"
+                   @click="decrementSliderCurrentIndexReviews(index, reviews.length)"></i>
                 <div class="Comparator-review-slider__content">
                     <div class="Comparator-review-slider__div">
                         <template v-for="i in 5">
@@ -22,8 +22,8 @@
                     </div>
                     <p>"{{ reviews[getSlidersCurrentIndex(index).reviews].comment }}"</p>
                 </div>
-                <i v-if="product.reviews.length > 1" class="Icon-angle-right Comparator-review-slider__controls icon chevron right"
-                   @click="incrementSliderCurrentIndexReviews(index, product.reviews.length)"></i>
+                <i v-if="reviews.length > 1" class="Icon-angle-right Comparator-review-slider__controls icon chevron right"
+                   @click="incrementSliderCurrentIndexReviews(index, reviews.length)"></i>
             </div>
         </div>
     </div>
@@ -34,7 +34,6 @@ import { isTablet } from '../common/utils/viewport'
 import { onBeforeMount, ref } from 'vue';
 import Api from '../api/api'
 import useStore from '../store/store'
-import $ from 'jquery'
 
 export default {
     name: 'Review',
@@ -48,7 +47,9 @@ export default {
         onBeforeMount(() => {
             product.reviews.forEach(reviewUrl => {
                 Api.getProductReview(reviewUrl).then(res => {
-                    reviews.value.push(res)
+                    if (res.status === 'accepted') {
+                        reviews.value.push(res)
+                    }
                 })
             })
         })

@@ -1,9 +1,10 @@
+{% set current_route = app.request.attributes.get('_route') %}
 {% if current_route is not same as('sylius_shop_comparator') %}
     <a href="{{ path('sylius_shop_comparator') }}"
        class="Comparator-button-fixed">
         <i class="Icon-compare Comparator-button-fixed__icon icon th"></i>
         <div class="Comparator-button-fixed__div">
-            {{ 'asdoria_sylius_comparator_bundle.ui.compare'|trans }}
+            {{ 'asdoria_sylius_comparator_bundle.ui.comparator'|trans }}
         </div>
     </a>
 {% endif %}

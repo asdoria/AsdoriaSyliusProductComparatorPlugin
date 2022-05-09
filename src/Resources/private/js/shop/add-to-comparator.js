@@ -1,4 +1,3 @@
-import {updatedNbr} from './icon-compare'
 import {getProductItems, removeInvalidItems, setProductItems} from "../comparator/helpers/local-storage-helper";
 import {createStorageItem} from "../comparator/helpers/product-helper";
 
@@ -12,17 +11,19 @@ export default () => {
  * @param el
  */
 const init = el => {
-    const { productCode } = el.dataset;
+    const { productCode, transLoading, transRemove } = el.dataset;
 
     let comparatorIds = getProductItems();
 
     if (comparatorIds.find(item => item.code === productCode)) {
-        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.added')
+        el.innerText = transRemove
     }
+
+    //TODO: button remove from comparator if product already in comparator
 
     el.addEventListener('click', async e => {
         e.preventDefault();
-        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.loading')
+        el.innerText = transLoading
 
         comparatorIds = getProductItems();
 
@@ -33,8 +34,7 @@ const init = el => {
         setProductItems(comparatorIds);
         await removeInvalidItems();
 
-        updatedNbr()
-        el.innerText = Translator.trans('asdoria_sylius_comparator_bundle.ui.added')
+        el.innerText = transRemove
     });
 };
 

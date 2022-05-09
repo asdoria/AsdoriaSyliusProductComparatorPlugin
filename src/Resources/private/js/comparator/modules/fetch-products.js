@@ -19,7 +19,7 @@ export default function useFetchProducts (storage, callback = () => {}) {
             return;
         }
 
-        const products = await Api.getProductsByCodes(codes, true);
+        const products = await Api.getProductsByCodes(codes);
 
         state.data = storage.map(async s => {
             const fetchedProduct = products.find(p => p.code === s.code);

@@ -20,6 +20,6 @@ class ComparatorController
 
     public function indexAction(Request $request): Response
     {
-        return new Response($this->templatingEngine->render('@AsdoriaSyliusProductComparatorPlugin/Comparator/index.html.twig'));
+        return new Response($this->templatingEngine->render('@AsdoriaSyliusProductComparatorPlugin/Shop/Comparator/index.html.twig'));
     }
 }

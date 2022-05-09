@@ -84,8 +84,7 @@ export default function useProductHelper() {
     }
 
     function getTaxonInfosByLocale(taxon) {
-        if (!taxon) return null;
-
+        if (!taxon || !taxon.translations) return null;
         const _locale = getDocumentLocale();
         const {
                   translations: {

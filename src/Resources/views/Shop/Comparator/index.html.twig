@@ -30,4 +30,8 @@
 
 {% block javascripts %}
     {{ parent() }}
+    {% set locales = sylius.channel.locales|map(l => l.code|slice(0,2)) %}
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ url('bazinga_jstranslation_js', {locales: locales|join(',')}) }}"></script>
+    {{ sylius_template_event('asdoria.shop.index_comparator.javascripts') }}
 {% endblock %}

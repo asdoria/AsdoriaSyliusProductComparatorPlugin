@@ -114,5 +114,30 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 ## Usage
 
 1. Include `src/Resources/views/Comparator/_addToComparator.html.twig` with product
-2. Include `src/Resources/views/Comparator/_fixedButton.html.twig` on the pages you want
+
 3. See result at `http://your-shop/locale/comparator`
+
+```html
+{% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
+
+<div class="ui fluid card" {{ sylius_test_html_attribute('product') }}>
+    <a href="{{ path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}" class="blurring dimmable image">
+        <div class="ui dimmer">
+            <div class="content">
+                <div class="center">
+                    <div class="ui inverted button">{{ 'sylius.ui.view_more'|trans }}</div>
+                </div>
+            </div>
+        </div>
+        {% include '@SyliusShop/Product/_mainImage.html.twig' with {'product': product} %}
+    </a>
+    {{ sylius_template_event('asdoria.shop.add_to_comparator.content', {'product': product}) }}
+    <div class="content" {{ sylius_test_html_attribute('product-content') }}>
+        <a href="{{ path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}" class="header sylius-product-name" {{ sylius_test_html_attribute('product-name', product.name) }}>{{ product.name }}</a>
+        {% if not product.enabledVariants.empty() %}
+            <div class="sylius-product-price" {{ sylius_test_html_attribute('product-price') }}>{{ money.calculatePrice(product|sylius_resolve_variant) }}</div>
+        {% endif %}
+    </div>
+</div>
+
+```

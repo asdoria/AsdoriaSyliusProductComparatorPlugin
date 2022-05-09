@@ -8,7 +8,7 @@ export const getValidCodes = async codes => {
 }
 
 export const createStorageItem = async code => {
-    const products = await Api.getProductsByCodes([code], true);
+    const products = await Api.getProductsByCodes([code]);
     const [node]                    = products;
 
     const expireDate = new Date();

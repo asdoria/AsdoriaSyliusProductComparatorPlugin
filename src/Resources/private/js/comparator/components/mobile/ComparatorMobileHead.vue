@@ -6,7 +6,7 @@
         </td>
         <td v-for="(product, index) in products.data"
             class="Comparator-data-product center aligned">
-            <button @click="removeProduct(product.code)" class="Comparator-data-product__button marged-bottom">
+            <button @click="removeProduct(product.code)" class="Comparator-data-product__button marged-bottom" :aria-label="Translator.trans('asdoria_sylius_comparator_bundle.ui.remove')">
                 <i class="Icon-close icon close"></i>
             </button>
             <div class="Comparator-data-product-slider">

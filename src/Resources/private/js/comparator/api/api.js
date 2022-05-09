@@ -16,28 +16,17 @@ export default class Api {
     /**
      *
      * @param codes
-     * @param withMainTaxon
      * @returns {Promise<*[]>}
      */
-    static async getProductsByCodes (codes, withMainTaxon = false) {
+    static async getProductsByCodes (codes) {
         let products = []
 
         for (const code of codes) {
             const productRoute = LocaleRouter.generate(ROUTES_FOS._API_PRODUCT_ITEM, { code })
             const { data }     = await axios.get(productRoute, config)
 
-            if (withMainTaxon) {
-                data.mainTaxon = await Api.getProductTaxon(data.mainTaxon)
-            }
-
-            const secondaryTaxons = await this.getProductSecondaryTaxons(data.productTaxons)
-            data.productTaxons    = secondaryTaxons
-
-            const attributes = await this.getProductAttributes(data.attributes)
-            data.attributes  = attributes
-
-            const variants = await this.getProductVariants(data.variants)
-            data.variants  = variants
+            // const attributes = await this.getProductAttributes(data.attributes)
+            // data.attributes  = attributes
 
             products.push(data)
         }

@@ -3,16 +3,16 @@ asdoria_sylius_comparator_bundle:
         comparator: Comparator
         compare: Compare
         loading: Loading...
-        added: Added
         no_product: No product to compare
         back: Back
         header_title: Select your products to compare
+        remove_from_comparator: Remove from comparator
         specifications: Specifications
         features: Features
         ratings: Ratings
         description: Description
         main_taxon: Main taxon
         secondary_taxons: Secondary taxons
-        add_to_selection: Add to my selection
+        go_to_product: Go to product
         ttc: TTC
         ht: HT

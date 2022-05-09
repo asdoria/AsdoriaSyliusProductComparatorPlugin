@@ -1,5 +1,11 @@
 import { reactive } from 'vue'
 import {setProductItems} from "../helpers/local-storage-helper";
+import useProductHelper from '../modules/product-helper';
+import Api from '../api/api';
+
+const {
+            getTaxonInfosByLocale
+      } = useProductHelper()
 
 const STORAGE_KEY = 'sylius_comparator';
 
@@ -69,11 +75,33 @@ export default function useLocalStorageProducts () {
         emptyProducts.forEach(code => removeProduct(code))
     }
 
+    function getProductInformations(product, attributes) {
+        Api.getProductTaxon(product.mainTaxon).then(res => {
+            product.mainTaxon = res
+        })
+
+        Api.getProductSecondaryTaxons(product.productTaxons).then(res => {
+            product.productTaxons = res
+        })
+
+        Api.getProductVariants(product.variants).then(res => {
+            product.variants = res
+        })
+
+        const attributesId = attributes.map(attr => attr.id)
+        const productAttributes = product.attributes.filter(attr => attributesId.includes(attr.id))
+        Api.getProductAttributes(productAttributes).then(res => {
+            product.attributes = res
+            console.log(product);
+        })
+    }
+
     return {
         store,
         getCodes,
         removeProduct,
         clean,
         updateProductNode,
+        getProductInformations
     }
 }

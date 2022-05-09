@@ -1,7 +1,25 @@
 import { VM_COMPARATOR } from './comparator/common/selectors/vueInstances'
 import Comparator from './comparator/components/Comparator'
-import { createApp } from 'vue'
+import { createApp, reactive, watch } from 'vue';
 import { init as initLocaleRouter } from './comparator/routing/LocaleRouter'
+import useFetchAttributes from './comparator/modules/fetch-attributes';
+import { getProducts } from './comparator/modules/local-storage-products';
+
+const  guessAttributes = (availableAttributes) => {
+    return getProducts().reduce((acc, product) => {
+            const { attributes } = product.node
+            if (!attributes) return acc
+
+            attributes
+                .filter(({id}) => availableAttributes.includes(id))
+                .forEach((attr) => {
+                    if (acc.find(a => a.code === attr.code)) return
+                    acc.push(attr)
+                })
+
+            return acc
+        }, [])
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     await initLocaleRouter()
@@ -13,6 +31,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     createApp(Comparator, {
         currencyCode,
         withTax,
-        availableAttributes
+        attributes: guessAttributes(availableAttributes)
     }).mount(VM_COMPARATOR)
 })

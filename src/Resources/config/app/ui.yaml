@@ -1,12 +1,31 @@
 sylius_ui:
     events:
-        asdoria.shop.product_comparator.javascripts:
+        asdoria.shop.index_comparator.javascripts:
             blocks:
                 scripts:
-                    template: "@AsdoriaSyliusProductComparatorPlugin/_javascripts.html.twig"
+                    template: "@AsdoriaSyliusProductComparatorPlugin/Shop/Comparator/_javascripts.html.twig"
                     priority: 10
-        asdoria.shop.product_comparator.stylesheets:
+
+        sylius.shop.layout.stylesheets:
+            blocks:
+                comparator:
+                    template: "@AsdoriaSyliusProductComparatorPlugin/_stylesheets.html.twig"
+                    priority: 5
+
+        sylius.shop.layout.javascripts:
+            blocks:
+                comparator:
+                    template: "@AsdoriaSyliusProductComparatorPlugin/_javascripts.html.twig"
+                    priority: 5
+
+        asdoria.shop.add_to_comparator.content:
             blocks:
                 scripts:
-                    template: "@AsdoriaSyliusProductComparatorPlugin/_stylesheets.html.twig"
+                    template: "@AsdoriaSyliusProductComparatorPlugin/Shop/_addToComparatorButton.html.twig"
+                    priority: 10
+
+        sylius.shop.layout.before_content:
+            blocks:
+                comparator:
+                    template: "@AsdoriaSyliusProductComparatorPlugin/Shop/_fixedButton.html.twig"
                     priority: 10
