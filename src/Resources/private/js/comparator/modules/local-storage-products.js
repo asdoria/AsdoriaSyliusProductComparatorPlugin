@@ -12,6 +12,7 @@ const STORAGE_KEY = 'sylius_comparator';
 export const getProducts = () => {
     const products = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
     return products.reduce((acc, {node, locale}) => {
+        if (!node) return acc;
         acc.push({locale, ...node})
         return acc;
     }, [])

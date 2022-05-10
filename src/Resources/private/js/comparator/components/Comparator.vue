@@ -176,7 +176,6 @@ export default {
         })
 
         let hasRating = false;
-        console.log(storage.products);
         storage.products.forEach(({reviews}) => {
             hasRating = reviews.length > 0;
         });
