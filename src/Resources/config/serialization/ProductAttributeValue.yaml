@@ -12,4 +12,8 @@ App\Entity\Product\ProductAttributeValue:
             groups:
                 - shop:product:read
                 - shop:product_attribute_value:read
+        localeCode:
+            groups:
+                - shop:product:read
+                - shop:product_attribute_value:read
 

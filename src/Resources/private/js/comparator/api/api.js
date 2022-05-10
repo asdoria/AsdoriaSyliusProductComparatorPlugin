@@ -3,7 +3,7 @@ import useStore from '../store/store'
 import { router as LocaleRouter } from '../routing/LocaleRouter'
 import { ROUTES_FOS } from '../routing/routes'
 
-const { getAttributeById, pushAttribute } = useStore().attributes()
+const { getAttributeById, pushAttribute, getAttributes } = useStore().attributes()
 const { getTaxonByCode, pushTaxon }         = useStore().taxons()
 
 const config = {
@@ -24,9 +24,6 @@ export default class Api {
         for (const code of codes) {
             const productRoute = LocaleRouter.generate(ROUTES_FOS._API_PRODUCT_ITEM, { code })
             const { data }     = await axios.get(productRoute, config)
-
-            // const attributes = await this.getProductAttributes(data.attributes)
-            // data.attributes  = attributes
 
             products.push(data)
         }
@@ -89,6 +86,26 @@ export default class Api {
             return secondaryTaxons
         } catch (e) {
             return null
+        }
+    }
+
+    static async getAttributes (apiUrls) {
+        try {
+            const attributes = []
+            for (const apiUrl of apiUrls) {
+                const {data} = await axios.get(apiUrl.attribute, config);
+                const dataAttribute = {
+                    id: data['@id'],
+                    configuration: data.configuration,
+                    translations: data.translations,
+                    position: data.position
+                }
+                attributes.push(dataAttribute)
+            }
+
+            return attributes.sort((a, b) => { return a.position - b.position })
+        } catch (e) {
+            return []
         }
     }
 

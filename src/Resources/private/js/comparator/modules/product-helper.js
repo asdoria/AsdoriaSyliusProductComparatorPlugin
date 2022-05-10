@@ -9,10 +9,12 @@ export default function useProductHelper() {
      * @param product
      * @returns {null}
      */
-    function getAttributeValue(attributeCode, product) {
+    function getAttributeValue(attributeId, product) {
         if (!product.attributes) return null;
 
-        const { value = null } = product.attributes.find(attr => attr.code === attributeCode) || {};
+        const _locale = getDocumentLocale()
+        const { value = null } = product.attributes.find(attr => attr.attribute === attributeId && attr.localeCode === _locale) || {};
+
         return value;
     }
 
@@ -63,11 +65,16 @@ export default function useProductHelper() {
     }
 
     function getProductNameByLocale(product) {
-        if (!product) return null;
+        try {
+            if (!product) return null;
 
-        const _locale                                         = getDocumentLocale();
-        const { translations: { [_locale]: { name: name } } } = product;
-        return name;
+            const _locale                                         = getDocumentLocale();
+            const { translations: { [_locale]: { name: name } } } = product;
+            return name;
+        } catch (e) {
+            return ''
+        }
+
     }
 
     /**
@@ -76,29 +83,41 @@ export default function useProductHelper() {
      * @returns {*}
      */
     function getProductUrl(product) {
-        if (!product) return null;
+        try {
+            if (!product) return null;
 
-        const _locale                                         = getDocumentLocale();
-        const { translations: { [_locale]: { slug: slug } } } = product;
-        return LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_SHOW, { slug });
+            const _locale                                         = getDocumentLocale();
+            const { translations: { [_locale]: { slug: slug } } } = product;
+            return LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_SHOW, { slug });
+        } catch (e) {
+            return '#'
+        }
     }
 
     function getTaxonInfosByLocale(taxon) {
-        if (!taxon || !taxon.translations) return null;
-        const _locale = getDocumentLocale();
-        const {
-                  translations: {
-                      [_locale]: {
-                          name,
-                          slug
+        try {
+            if (!taxon || !taxon.translations) return null;
+
+            const _locale = getDocumentLocale();
+            const {
+                      translations: {
+                          [_locale]: {
+                              name,
+                              slug
+                          }
                       }
-                  }
-              }       = taxon;
-        const url     = LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_INDEX, { slug });
-        return {
-            name,
-            url
-        };
+                  }       = taxon;
+            const url     = LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_INDEX, { slug });
+            return {
+                name,
+                url
+            };
+        } catch (e) {
+            return {
+                name: '',
+                url: '#'
+            }
+        }
     }
 
     /**

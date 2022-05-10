@@ -1,7 +1,7 @@
 <template>
-    <div v-if="!products.data.length" class="Comparator-no-product">
+    <div v-if="!products.length" class="Comparator-no-product">
         <p class="Comparator-no-product__p">{{ Translator.trans('asdoria_sylius_comparator_bundle.ui.no_product') }}</p>
-        <button class="js-prev-page Comparator-button">
+        <button class="js-prev-page Comparator-button ui button orange">
             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.back') }}
         </button>
     </div>
@@ -28,7 +28,7 @@
                         <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.ratings') }}</p>
                     </td>
-                    <td v-for="(product, index) in products.data" class="Comparator-data-product">
+                    <td v-for="(product, index) in products" class="Comparator-data-product">
                         <Review :product="product" :index="index"/>
                     </td>
                 </tr>
@@ -38,7 +38,7 @@
                         <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.description') }}</p>
                     </td>
-                    <td v-for="product in products.data" class="Comparator-data-product">
+                    <td v-for="product in products" class="Comparator-data-product">
                         <div class="Comparator-data-value">
                             <div class="js-comparator-string-to-html line-clamp-3"
                                  :data-string-value="product.description"></div>
@@ -51,10 +51,10 @@
                         <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.main_taxon') }}</p>
                     </td>
-                    <td v-for="product in products.data" class="Comparator-data-product">
+                    <td v-for="product in products" class="Comparator-data-product">
                         <a class="Button Comparator-link Comparator-link__main-taxon Comparator-data-value link black"
-                           :href="getTaxonInfosByLocale(product.mainTaxon).url">
-                            {{ getTaxonInfosByLocale(product.mainTaxon).name }}
+                           :href="getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).url : '#'">
+                            {{ getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).name : 'Loading...' }}
                         </a>
                     </td>
                 </tr>
@@ -64,38 +64,39 @@
                         <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.secondary_taxons') }}</p>
                     </td>
-                    <td v-for="product in products.data" class="Comparator-data-product">
+                    <td v-for="product in products" class="Comparator-data-product">
                         <div class="Comparator-data-value">
-                            <a v-for="(taxon, index) in product.productTaxons" :href="getTaxonInfosByLocale(taxon).url"
+                            <a v-for="(taxon, index) in product.productTaxons"
+                               :href="getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).url : '#'"
                                class="Button Comparator-link Comparator-link__secondary-taxons link black">
-                                {{ getTaxonInfosByLocale(taxon).name }}
+                                {{ getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).name : 'Loading...' }}
                                 <span v-if="index !== product.productTaxons.length - 1" class="text black marged-right-small">|</span>
                             </a>
                         </div>
                     </td>
                 </tr>
 
-                <tr v-for="attribute in attributes.data.filter(attr => availableAttributes.includes(attr.id))" class="Comparator-attribute">
+                <tr v-for="attribute in attributes" class="Comparator-attribute">
                     <td class="Comparator-attribute-left Comparator-data-left">
                         <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                             {{ getAttributeNameByLocale(attribute) }}</p>
                     </td>
 
-                    <td v-for="product in products.data"
+                    <td v-for="product in products"
                         class="Comparator-attribute-product Comparator-data-product">
-                        <div v-if="Array.isArray(getAttributeValue(attribute.code, product))"
-                             v-for="val in getAttributeValue(attribute.code, product)">
+                        <div v-if="Array.isArray(getAttributeValue(attribute.id, product))"
+                             v-for="val in getAttributeValue(attribute.id, product)">
                             <div class="js-comparator-string-to-html Comparator-data-value"
                                  :data-string-value="getAttributeValueByLocale(val)"></div>
                         </div>
                         <div v-else class="js-comparator-string-to-html Comparator-data-value"
-                             :data-string-value="getAttributeValue(attribute.code, product)"></div>
+                             :data-string-value="getAttributeValue(attribute.id, product)"></div>
                     </td>
                 </tr>
 
                 <tr>
                     <td class="Comparator-selection-left"></td>
-                    <td v-for="product in products.data"
+                    <td v-for="product in products"
                         class="Comparator-selection-product">
                         <a class="Button Comparator-button ui orange fluid button" :href="getProductUrl(product)">
                             {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.go_to_product') }}
@@ -109,8 +110,6 @@
 </template>
 
 <script>
-import useFetchProducts from '../../modules/fetch-products'
-import useFetchAttributes from '../../modules/fetch-attributes'
 import useProductHelper from '../../modules/product-helper'
 import useLocalStorageProducts from '../../modules/local-storage-products'
 import { onUpdated } from 'vue';
@@ -128,34 +127,31 @@ export default {
         currencyCode: String,
         withTax: Boolean,
         hasRating: Boolean,
-        availableAttributes: Array
+        attributes: Array
     },
-    setup ({ currencyCode, withTax, hasRating, availableAttributes }) {
+    setup ({ currencyCode, withTax, hasRating, attributes }) {
 
         const {
                   store: storage,
                   removeProduct: removeProductFromLocalStorage,
                   clean: cleanStorage,
-                  updateProductNode
+                  updateProductNode,
+                  getProductInformations
               } = useLocalStorageProducts()
+
+        function remove (code) {
+            removeProductFromLocalStorage(code)
+        }
+
+        [...storage.products].forEach(product => {
+            getProductInformations(product, attributes)
+        })
 
         const {
                   getSlidersCurrentIndex,
                   incrementSliderCurrentIndexImages,
                   decrementSliderCurrentIndexImages
-              } = useStore().sliders()
-
-        const { state: products, removeProduct } = useFetchProducts(storage.products, (products) => {
-            cleanStorage(products)
-            products.forEach(p => updateProductNode(p.code, p))
-        })
-
-        const attributes = useFetchAttributes(products)
-
-        function remove (code) {
-            removeProduct(code)
-            removeProductFromLocalStorage(code)
-        }
+              } = useStore().sliders();
 
         onUpdated(() => {
             const domEls = document.querySelectorAll('.js-comparator-string-to-html');
@@ -169,9 +165,8 @@ export default {
             currencyCode,
             withTax,
             hasRating,
-            availableAttributes,
-            products,
             attributes,
+            products: storage.products,
             ...useProductHelper(),
             remove,
             Translator,

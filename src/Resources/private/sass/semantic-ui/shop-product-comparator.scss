@@ -78,6 +78,7 @@ button {
     tr td, tr th {
         border-top: none;
         border-bottom: none;
+        vertical-align: top;
     }
     tbody tr:not(:first-child) {
         &:nth-child(even) td {

@@ -1,36 +1,50 @@
-import { VM_COMPARATOR } from './comparator/common/selectors/vueInstances'
-import Comparator from './comparator/components/Comparator'
+import { VM_COMPARATOR } from './comparator/common/selectors/vueInstances';
+import Comparator from './comparator/components/Comparator';
 import { createApp, reactive, watch } from 'vue';
-import { init as initLocaleRouter } from './comparator/routing/LocaleRouter'
-import useFetchAttributes from './comparator/modules/fetch-attributes';
+import { init as initLocaleRouter, router as LocaleRouter } from './comparator/routing/LocaleRouter';
 import { getProducts } from './comparator/modules/local-storage-products';
+import { getDocumentLocale } from './comparator/common/helpers/locale';
+import Api from './comparator/api/api';
 
-const  guessAttributes = (availableAttributes) => {
-    return getProducts().reduce((acc, product) => {
-            const { attributes } = product.node
-            if (!attributes) return acc
+const getAvailableAttributes = (attributes, availableAttributes, currentLocale) => attributes
+    .filter(attr => availableAttributes.includes(Number(attr.attribute.split('/').slice(-1).toString())))
+    .filter(({ localeCode }) => currentLocale === localeCode);
 
-            attributes
-                .filter(({id}) => availableAttributes.includes(id))
-                .forEach((attr) => {
-                    if (acc.find(a => a.code === attr.code)) return
-                    acc.push(attr)
-                })
+const guessAttributes = async (availableAttributes) => {
+    const dataResponse = [];
 
-            return acc
-        }, [])
-}
+    for (const product of getProducts()) {
+        const { attributes } = product;
+        if (attributes) {
+            const filteredAttributes = getAvailableAttributes(attributes, availableAttributes, getDocumentLocale());
+            const temp               = await Api.getAttributes(filteredAttributes);
+            for (const attr of temp) {
+                if (!dataResponse.find(({ id }) => id === attr.id)) {
+                    dataResponse.push(attr);
+                }
+            }
+        }
+    }
+    return dataResponse;
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await initLocaleRouter()
-    if (!VM_COMPARATOR) return
+    await initLocaleRouter();
+    if (!VM_COMPARATOR) return;
 
-    const config                                         = JSON.parse(VM_COMPARATOR.dataset.config)
-    const { currencyCode, withTax, availableAttributes } = config
+    const config = JSON.parse(VM_COMPARATOR.dataset.config);
+    const {
+              currencyCode,
+              withTax,
+              availableAttributes
+          }      = config;
+
+    const attributes = await guessAttributes(availableAttributes);
 
     createApp(Comparator, {
         currencyCode,
         withTax,
-        attributes: guessAttributes(availableAttributes)
-    }).mount(VM_COMPARATOR)
-})
+        attributes
+    })
+        .mount(VM_COMPARATOR);
+});

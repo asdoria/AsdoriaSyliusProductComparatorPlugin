@@ -4,7 +4,7 @@
             <p class="Comparator-data-name text bold" style="width: calc(100vw - 48px)">
                 {{ Translator.trans('asdoria_sylius_comparator_bundle.ui.specifications') }}</p>
         </td>
-        <td v-for="(product, index) in products.data"
+        <td v-for="(product, index) in products"
             class="Comparator-data-product center aligned">
             <button @click="removeProduct(product.code)" class="Comparator-data-product__button marged-bottom" :aria-label="Translator.trans('asdoria_sylius_comparator_bundle.ui.remove')">
                 <i class="Icon-close icon close"></i>
@@ -52,7 +52,7 @@ export default {
     computed: {
         getWidthCell () {
             return {
-                width: 100 / ([...this.products.data].length + 1) + '%'
+                width: 100 / ([...this.products].length + 1) + '%'
             }
         }
     },

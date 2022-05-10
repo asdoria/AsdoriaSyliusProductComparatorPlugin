@@ -23,5 +23,6 @@
         <property name="id" identifier="true" writable="false" />
         <property name="value" required="true" />
         <property name="attribute" required="true" />
+        <property name="localCode" required="true" />
     </resource>
 </resources>

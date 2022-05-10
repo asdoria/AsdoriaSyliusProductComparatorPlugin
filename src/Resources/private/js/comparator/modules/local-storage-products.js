@@ -9,14 +9,20 @@ const {
 
 const STORAGE_KEY = 'sylius_comparator';
 
-export const getProducts = () => JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
+export const getProducts = () => {
+    const products = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
+    return products.reduce((acc, {node, locale}) => {
+        acc.push({locale, ...node})
+        return acc;
+    }, [])
+}
 
 export default function useLocalStorageProducts () {
     const store = reactive({
         products: [],
     })
 
-    store.products = getProducts();
+    store.products = getProducts()
 
     /**
      *
@@ -86,13 +92,6 @@ export default function useLocalStorageProducts () {
 
         Api.getProductVariants(product.variants).then(res => {
             product.variants = res
-        })
-
-        const attributesId = attributes.map(attr => attr.id)
-        const productAttributes = product.attributes.filter(attr => attributesId.includes(attr.id))
-        Api.getProductAttributes(productAttributes).then(res => {
-            product.attributes = res
-            console.log(product);
         })
     }
 

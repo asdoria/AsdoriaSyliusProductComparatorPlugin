@@ -99,13 +99,13 @@
                 </td>
 
                 <td v-for="product in products" class="Comparator-attribute-product">
-                    <div v-if="Array.isArray(getAttributeValue(attribute.code, product))"
-                         v-for="val in getAttributeValue(attribute.code, product)" class="Comparator-data-value">
+                    <div v-if="Array.isArray(getAttributeValue(attribute.id, product))"
+                         v-for="val in getAttributeValue(attribute.id, product)" class="Comparator-data-value">
                         <p class="js-comparator-string-to-html"
                            :data-string-value="getAttributeValueByLocale(val)"></p>
                     </div>
                     <p v-else class="js-comparator-string-to-html Comparator-data-value"
-                       :data-string-value="getAttributeValue(attribute.code, product)"></p>
+                       :data-string-value="getAttributeValue(attribute.id, product)"></p>
                 </td>
             </tr>
 
@@ -123,18 +123,16 @@
         </table>
     </template>
 
-<!--    <template v-else>-->
-<!--        <ComparatorMobile :currencyCode="currencyCode" :withTax="withTax" :hasRating="hasRating"-->
-<!--                          :availableAttributes="availableAttributes"/>-->
-<!--    </template>-->
+    <template v-else>
+        <ComparatorMobile :currencyCode="currencyCode" :withTax="withTax" :hasRating="hasRating"
+                          :attributes="attributes"/>
+    </template>
 
 </template>
 
 <script>
 import { isTablet } from '../common/utils/viewport';
 import useLocalStorageProducts from '../modules/local-storage-products';
-import useFetchProducts from '../modules/fetch-products';
-import useFetchAttributes from '../modules/fetch-attributes';
 import useProductHelper from '../modules/product-helper';
 import ComparatorHead from './ComparatorHead';
 import ComparatorMobile from './mobile/ComparatorMobile';
@@ -161,8 +159,6 @@ export default {
         withTax,
         attributes
     }) {
-        const { setProducts, getProducts } = useStore().products()
-
         const {
                   store: storage,
                   removeProduct: removeProductFromLocalStorage,
@@ -171,26 +167,18 @@ export default {
                   getProductInformations
               } = useLocalStorageProducts();
 
-        const {
-                  state: products,
-                  removeProduct
-              } = useFetchProducts(storage.products, (products) => {
-            cleanStorage(products);
-            setProducts(products)
-            for (let product of products) {
-                updateProductNode(product.code, product)
-                getProductInformations(product, attributes)
-            }
-        });
-
         function remove(code) {
-            removeProduct(code);
             removeProductFromLocalStorage(code);
         }
 
+        [...storage.products].forEach(product => {
+            getProductInformations(product, attributes)
+        })
+
         let hasRating = false;
-        storage.products.forEach(product => {
-            hasRating = product.node.reviews.length > 0;
+        console.log(storage.products);
+        storage.products.forEach(({reviews}) => {
+            hasRating = reviews.length > 0;
         });
 
         const {
@@ -212,7 +200,7 @@ export default {
             currencyCode,
             withTax,
             attributes,
-            products: getProducts(),
+            products: storage.products,
             hasRating,
             remove,
             Translator,
