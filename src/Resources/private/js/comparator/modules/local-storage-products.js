@@ -2,12 +2,11 @@ import { reactive } from 'vue'
 import {setProductItems} from "../helpers/local-storage-helper";
 import useProductHelper from '../modules/product-helper';
 import Api from '../api/api';
+import { STORAGE_KEY } from '../common/constants/local-storage'
 
 const {
             getTaxonInfosByLocale
       } = useProductHelper()
-
-const STORAGE_KEY = 'sylius_comparator';
 
 export const getProducts = () => {
     const products = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];

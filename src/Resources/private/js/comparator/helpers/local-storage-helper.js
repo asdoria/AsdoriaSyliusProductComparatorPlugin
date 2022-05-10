@@ -1,6 +1,5 @@
 import {getValidCodes} from "./product-helper";
-
-const STORAGE_KEY = 'sylius_comparator';
+import { STORAGE_KEY } from '../common/constants/local-storage'
 
 export const getProductItems = () => JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]');
 
