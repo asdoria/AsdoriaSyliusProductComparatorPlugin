@@ -12,7 +12,6 @@
 
 ## Installation
 
----
 1. Add the repository and the following auto-scripts to `composer.json`
 ```JSON
 "scripts": {
