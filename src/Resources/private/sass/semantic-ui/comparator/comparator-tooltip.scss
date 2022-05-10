@@ -9,7 +9,7 @@
 
     .Comparator-tooltip-target {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         opacity: 0;
         position: absolute;
@@ -22,6 +22,11 @@
         width: 280px;
         transform: rotateY(90deg);
         transition: opacity 0.25s ease-out, transform 0s ease-out 0.25s;
+
+        .Comparator-review-slider__content {
+            flex-grow: 1;
+            margin: 0 0.25rem;
+        }
     }
 
     .Comparator-tooltip-trigger:hover + .Comparator-tooltip-target,

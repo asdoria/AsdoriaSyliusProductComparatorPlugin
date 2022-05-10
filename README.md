@@ -95,8 +95,7 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 
 ## Usage
 
-1. Include event `asdoria.shop.add_to_comparator.content` with product inside product Card (see exemple below)
-
+1. Include event `asdoria.shop.add_to_comparator.content` with product inside product context (see exemple below)
 ```html
 <!-- templates/bundles/SyliusShopBundle/Product/Box/_content.html.twig -->
 

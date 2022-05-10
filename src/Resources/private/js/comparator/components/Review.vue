@@ -6,7 +6,7 @@
                     <i :class="i - 1 < product.averageRating ? 'text-yellow-500 text yellow':'opacity-50'"
                        class="Icon-star icon star marged-none"></i>
                 </template>
-                {{ product.averageRating }}/5
+                {{ Math.round(product.averageRating) }}/5
             </span>
             <div class="Comparator-tooltip-target Comparator-review-slider">
                 <i v-if="reviews.length > 1" class="Icon-angle-left Comparator-review-slider__controls icon chevron left"
