@@ -13,9 +13,20 @@
 ## Installation
 
 ---
-1. Add the repository to composer.json
+1. Add the repository and the following auto-scripts to `composer.json`
 
 ```JSON
+"scripts": {
+    [...],
+    "auto-scripts": {
+        "cache:clear": "symfony-cmd",
+        "fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json": "symfony-cmd",
+        "bazinga:js-translation:dump public/js --format=json": "symfony-cmd",
+        "assets:install %PUBLIC_DIR%": "symfony-cmd",
+        "sylius:theme:assets:install %PUBLIC_DIR%": "symfony-cmd",
+        "doctrine:migration:migrate -q": "symfony-cmd"
+    }
+},
 "repositories": [
     {
         "type": "git",
@@ -43,18 +54,15 @@ sylius_api:
     enabled: true
 ```
 
-5. Add comparator javascript and bazingajstranslation script in your layout scripts
+5. Add comparator javascript in `templates/bundles/SyliusShopBundle/_layout.html.twig`
 ```html
 {% block javascripts %}
     {{ sylius_template_event('sylius.shop.layout.javascripts') }}
     {{ sylius_template_event('asdoria.shop.product_comparator.javascripts') }}
-
-    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-    <script src="{{ url('bazinga_jstranslation_js', {locales: 'en,fr'}) }}"></script>
 {% endblock %}
 ```
 
-6. Add comparator stylesheet in your layout stylesheets
+6. Add comparator stylesheet in in `templates/bundles/SyliusShopBundle/_layout.html.twig`
 ```twig
 {% block stylesheets %}
     {% if current_route is not same as('sylius_shop_comparator') or tailwind == false %}
@@ -113,11 +121,11 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 
 ## Usage
 
-1. Include `src/Resources/views/Comparator/_addToComparator.html.twig` with product
-
-3. See result at `http://your-shop/locale/comparator`
+1. Include event `asdoria.shop.add_to_comparator.content` with product inside product Card (see exemple below)
 
 ```html
+<!-- templates/bundles/SyliusShopBundle/Product/Box/_content.html.twig -->
+
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
 
 <div class="ui fluid card" {{ sylius_test_html_attribute('product') }}>
@@ -139,5 +147,5 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
         {% endif %}
     </div>
 </div>
-
 ```
+2. fixed button is already include inside event `sylius.shop.layout.before_content`
