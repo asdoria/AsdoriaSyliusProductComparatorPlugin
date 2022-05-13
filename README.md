@@ -12,35 +12,11 @@
 
 ## Installation
 
-1. Add the repository and the following auto-scripts to `composer.json`
-```JSON
-"scripts": {
-    [...],
-    "auto-scripts": {
-        "cache:clear": "symfony-cmd",
-        "fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json": "symfony-cmd",
-        "bazinga:js-translation:dump public/js --format=json": "symfony-cmd",
-        "assets:install %PUBLIC_DIR%": "symfony-cmd",
-        "sylius:theme:assets:install %PUBLIC_DIR%": "symfony-cmd",
-        "doctrine:migration:migrate -q": "symfony-cmd"
-    }
-},
-"repositories": [
-    {
-        "type": "git",
-        "url": "https://github.com/asdoria/AsdoriaSyliusProductComparatorPlugin.git"
-    }
-],
-```
 
-2. run `composer require asdoria/sylius-product-comparator-plugin`
+1. run `composer require asdoria/sylius-product-comparator-plugin`
 
-3. Add the bundle in `config/bundles.php`
-```PHP
-Asdoria\SyliusProductComparatorPlugin\AsdoriaSyliusProductComparatorPlugin::class => ['all' => true],
-```
 
-4. Import config and enabled sylius_api in `config/packages/_sylius.yaml`
+2. Import config and enable sylius_api in `config/packages/_sylius.yaml`
 ```yaml
 imports:
     - { resource: "@AsdoriaSyliusProductComparatorPlugin/Resources/config/app/config.yaml"}
@@ -51,7 +27,7 @@ sylius_api:
     enabled: true
 ```
 
-5. Expose sylius_api in `config/routes/sylius_api.yaml`
+3. Expose sylius_api in `config/routes/sylius_api.yaml`
 ```yaml
 sylius_api:
     [...]
@@ -59,7 +35,7 @@ sylius_api:
         expose: true
 ```
 
-6. In `config/routes/sylius_shop.yaml`:
+4. In `config/routes/sylius_shop.yaml`:
    1. Add comparator route
     ```yaml
     asdoria_product_comparator:
@@ -82,9 +58,23 @@ sylius_api:
         expose: true
    ```
 
+5. Add the following 4 lines to the auto-scripts in `composer.json`
+```JSON
+"scripts": {
+    [...],
+    "auto-scripts": {
+        [...]
+        "fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json": "symfony-cmd",
+        "bazinga:js-translation:dump public/js --format=json": "symfony-cmd",
+        "sylius:theme:assets:install %PUBLIC_DIR%": "symfony-cmd",
+        "doctrine:migration:migrate -q": "symfony-cmd"
+    }
+},
+```
+   Now run them with `composer run auto-scripts`
 ### Styles
 
-Add global `tailwind` in `config/packages/twig.yaml`:
+Add global `tailwind` variable in `config/packages/twig.yaml`:
 ```yaml
 twig:
     [...]
@@ -95,12 +85,13 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 
 ## Usage
 
-1. Include event `asdoria.shop.add_to_comparator.content` with product inside product context (see exemple below)
+1. Add the button to let the customer choose which products to compare
+
+Override the Box/_content template to include the  event `asdoria.shop.add_to_comparator.content` with `product` as the parameter
 ```html
 <!-- templates/bundles/SyliusShopBundle/Product/Box/_content.html.twig -->
 
 {% import "@SyliusShop/Common/Macro/money.html.twig" as money %}
-
 <div class="ui fluid card" {{ sylius_test_html_attribute('product') }}>
     <a href="{{ path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}" class="blurring dimmable image">
         <div class="ui dimmer">
@@ -112,13 +103,46 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
         </div>
         {% include '@SyliusShop/Product/_mainImage.html.twig' with {'product': product} %}
     </a>
+
     {{ sylius_template_event('asdoria.shop.add_to_comparator.content', {'product': product}) }}
-    <div class="content" {{ sylius_test_html_attribute('product-content') }}>
-        <a href="{{ path('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale}) }}" class="header sylius-product-name" {{ sylius_test_html_attribute('product-name', product.name) }}>{{ product.name }}</a>
-        {% if not product.enabledVariants.empty() %}
-            <div class="sylius-product-price" {{ sylius_test_html_attribute('product-price') }}>{{ money.calculatePrice(product|sylius_resolve_variant) }}</div>
-        {% endif %}
-    </div>
-</div>
+
+        [...]
+
+</div>    
 ```
-2. fixed button is already include inside event `sylius.shop.layout.before_content`
+2. The fixed button redirecting to the comparator page is already included inside the event `sylius.shop.layout.before_content`
+
+## Choose the products attributes to compare
+ You can choose which product attributes will be displayed in the comparator page by overriding `src/Resources/views/Shop/Comparator/index.html.twig` and setting new values into `availableAttributes: [value1, value2]`
+The array contains the id of all attributes you want to show.
+ 
+ You will find attributes' id on their edit page, by looking at the url (e.g. `admin/product-attributes/3/edit` is the T-shirt material with an id of 3)
+
+Here's an override exemple :
+```html
+<!-- templates/bundles/AsdoriaSyliusProductComparatorPlugin/Shop/Comparator/index.html.twig-->
+{% block content %}
+    <div class="Comparator">
+        <div class="Comparator-header">
+            <h1 class="Comparator-title">
+                {{ 'asdoria_sylius_comparator_bundle.ui.comparator'|trans }}
+            </h1>
+        </div>
+        {% set config = {
+            currencyCode: sylius.currencyCode,
+            withTax: true,
+            availableAttributes: [1, 3, 11]
+        } %}
+        <div id="vm-comparator" data-config="{{ config|serialize }}">
+            <span class="Comparator-loader"></span>
+        </div>
+    </div>
+{% endblock %}
+
+
+```
+`availableAttributes: [1, 3, 11]` states that 3 attributes will be compared :
+
+- 1 : T-shirt Brand
+- 3 : T-shirt Material
+- 11 : Length
