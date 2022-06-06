@@ -45,15 +45,7 @@ sylius_api:
    ```yaml
    sylius_shop_product_index:
     path: /{_locale}/taxons/{slug}
-    methods: [GET]
-    defaults:
-        _controller: sylius.controller.product:indexAction
-        _sylius:
-            template: "@SyliusShop/Product/index.html.twig"
-            grid: asdoria_shop_product
-    requirements:
-        slug: .+
-        _locale: ^[A-Za-z]{2,4}(_([A-Za-z]{4}|[0-9]{3}))?(_([A-Za-z]{2}|[0-9]{3}))?$
+    [...]
     options:
         expose: true
    ```
@@ -65,16 +57,14 @@ sylius_api:
     "auto-scripts": {
         [...]
         "fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json": "symfony-cmd",
-        "bazinga:js-translation:dump public/js --format=json": "symfony-cmd",
-        "sylius:theme:assets:install %PUBLIC_DIR%": "symfony-cmd",
-        "doctrine:migration:migrate -q": "symfony-cmd"
+        "bazinga:js-translation:dump public/js --format=json": "symfony-cmd"
     }
 },
 ```
    Now run them with `composer run auto-scripts`
 ### Styles
 
-Add global `tailwind` variable in `config/packages/twig.yaml`:
+Add global `tailwind` variable if you want use a tailwind theme in `config/packages/twig.yaml`:
 ```yaml
 twig:
     [...]
