@@ -57,8 +57,8 @@
                 </td>
                 <td v-for="product in products">
                     <a class="Button Comparator-link Comparator-link__main-taxon Comparator-data-value link black"
-                       :href="getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).url : '#'">
-                        {{ getTaxonInfosByLocale(product.mainTaxon) ? getTaxonInfosByLocale(product.mainTaxon).name : 'Loading...' }}
+                       :href="getTaxonInfosByLocale(product.mainTaxon).url">
+                        {{ getTaxonInfosByLocale(product.mainTaxon).name }}
                     </a>
                 </td>
             </tr>
@@ -70,14 +70,19 @@
                         }}</p>
                 </td>
                 <td v-for="product in products">
-                    <div class="Comparator-data-value">
-                        <a v-for="(taxon, index) in product.productTaxons"
-                           :href="getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).url : '#'"
-                           class="Button Comparator-link Comparator-link__secondary-taxons link black">
-                            {{ getTaxonInfosByLocale(taxon) ? getTaxonInfosByLocale(taxon).name : 'Loading...' }}
-                            <span v-if="index !== product.productTaxons.length - 1" class="text black marged-right-small">|</span>
-                        </a>
-                    </div>
+                    <template v-if="typeof product.productTaxons[0] === 'object'">
+                        <div class="Comparator-data-value">
+                            <a v-for="(taxon, index) in product.productTaxons"
+                               :href="getTaxonInfosByLocale(taxon).url"
+                               class="Button Comparator-link Comparator-link__secondary-taxons link black">
+                                {{ getTaxonInfosByLocale(taxon).name }}
+                                <span v-if="index !== product.productTaxons.length - 1" class="text black marged-right-small">|</span>
+                            </a>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <span class="Comparator-loader"></span>
+                    </template>
                 </td>
             </tr>
 

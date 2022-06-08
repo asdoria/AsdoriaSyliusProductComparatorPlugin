@@ -10,6 +10,7 @@ const {
 
 export const getProducts = () => {
     const products = JSON.parse(window.localStorage.getItem(STORAGE_KEY)) || [];
+    console.log(products);
     return products.reduce((acc, {node, locale}) => {
         if (!node) return acc;
         acc.push({locale, ...node})

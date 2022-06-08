@@ -41,12 +41,14 @@ sylius_api:
     asdoria_product_comparator:
         resource: "@AsdoriaSyliusProductComparatorPlugin/Resources/config/routing.yaml"
     ```
-    2. Expose `sylius_shop_product_index`
+    2. Expose `sylius_shop`
    ```yaml
-   sylius_shop_product_index:
-    path: /{_locale}/taxons/{slug}
-    [...]
-    options:
+    sylius_shop:
+      resource: "@SyliusShopBundle/Resources/config/routing.yml"
+        prefix: /{_locale}
+      requirements:
+        _locale: ^[A-Za-z]{2,4}(_([A-Za-z]{4}|[0-9]{3}))?(_([A-Za-z]{2}|[0-9]{3}))?$
+      options:
         expose: true
    ```
 
@@ -103,36 +105,13 @@ Override the Box/_content template to include the  event `asdoria.shop.add_to_co
 2. The fixed button redirecting to the comparator page is already included inside the event `sylius.shop.layout.before_content`
 
 ## Choose the products attributes to compare
- You can choose which product attributes will be displayed in the comparator page by overriding `src/Resources/views/Shop/Comparator/index.html.twig` and setting new values into `availableAttributes: [value1, value2]`
-The array contains the id of all attributes you want to show.
- 
- You will find attributes' id on their edit page, by looking at the url (e.g. `admin/product-attributes/3/edit` is the T-shirt material with an id of 3)
-
-Here's an override exemple :
-```html
-<!-- templates/bundles/AsdoriaSyliusProductComparatorPlugin/Shop/Comparator/index.html.twig-->
-{% block content %}
-    <div class="Comparator">
-        <div class="Comparator-header">
-            <h1 class="Comparator-title">
-                {{ 'asdoria_sylius_comparator_bundle.ui.comparator'|trans }}
-            </h1>
-        </div>
-        {% set config = {
-            currencyCode: sylius.currencyCode,
-            withTax: true,
-            availableAttributes: [1, 3, 11]
-        } %}
-        <div id="vm-comparator" data-config="{{ config|serialize }}">
-            <span class="Comparator-loader"></span>
-        </div>
-    </div>
-{% endblock %}
-
-
+ You can choose which product attributes will be displayed in the comparator page by add configuration into `config/packages/_sylius.yaml`
+```yaml
+asdoria_product_comparator:
+     available_attributes:
+       - t_shirt_brand
+       - t_shirt_material
+       - length
 ```
-`availableAttributes: [1, 3, 11]` states that 3 attributes will be compared :
+The array contains the code of all attributes you want to compare.
 
-- 1 : T-shirt Brand
-- 3 : T-shirt Material
-- 11 : Length

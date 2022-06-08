@@ -25,11 +25,16 @@
                 <a class="Comparator-link link black" :href="getProductUrl(product)">{{ getProductNameByLocale(product) }}</a>
                 <p class="Comparator-head-product-code text very small light">{{ product.code }}</p>
             </div>
-            <p class="Comparator-head-product-price ui tertiary segment">
-                {{ Object.values(product.variants)[0].price/100 }}
-                {{ currencyCode }}
-                {{ withTax ? Translator.trans('asdoria_sylius_comparator_bundle.ui.ttc') : Translator.trans('asdoria_sylius_comparator_bundle.ui.ht') }}
-            </p>
+            <template v-if="typeof product.variants[0] === 'object'">
+                <p class="Comparator-head-product-price ui tertiary segment">
+                    {{ product.variants[0].price/100 }}
+                    {{ currencyCode }}
+                    {{ withTax ? Translator.trans('asdoria_sylius_comparator_bundle.ui.ttc') : Translator.trans('asdoria_sylius_comparator_bundle.ui.ht') }}
+                </p>
+            </template>
+            <template v-else>
+                <span class="Comparator-loader"></span>
+            </template>
         </th>
     </tr>
     </thead>

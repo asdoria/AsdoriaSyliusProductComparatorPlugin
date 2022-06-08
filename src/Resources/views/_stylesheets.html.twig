@@ -1,4 +1,4 @@
-{% if tailwind %}
+{% if tailwind is defined and tailwind == true %}
     <link rel="stylesheet" href="{{ asset('shop-product-comparator-tailwind.min.css', 'asdoria_sylius_product_comparator_plugin') }}">
 {% else %}
     <link rel="stylesheet" href="{{ asset('shop-product-comparator-semantic-ui.min.css', 'asdoria_sylius_product_comparator_plugin') }}">

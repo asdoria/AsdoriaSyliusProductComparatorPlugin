@@ -1,0 +1,7 @@
+services:
+    Asdoria\SyliusProductComparatorPlugin\Twig\ComparatorExtension:
+        arguments:
+            $attributeRepository: '@sylius.repository.product_attribute'
+            $availableAttributes: '%asdoria_sylius_product_comparator.available_attributes%'
+        tags:
+            - { name: twig.extension }

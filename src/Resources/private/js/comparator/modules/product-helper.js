@@ -28,8 +28,7 @@ export default function useProductHelper() {
     function getAttributeNameByLocale(attribute) {
         if (!attribute) return null;
         try {
-            const _locale                                   = getDocumentLocale();
-            const { translations: { [_locale]: { name } } } = attribute;
+            const { name } = attribute;
             return name;
         } catch (e) {
             return null;
@@ -56,20 +55,18 @@ export default function useProductHelper() {
      * @returns {string|*}
      */
     function getImageUrl(productImg) {
-        if (!productImg || !productImg.path) return 'http://placehold.it/200x200';
-
+        if (!productImg || !productImg.path) return '/assets/shop/img/200x200.png';
+        const disabledSegmentPaths = ['media', 'image']
         return LocaleRouter.generate(ROUTES_FOS._LIIP_FILTER, {
             'filter': 'sylius_shop_product_thumbnail',
-            'path': productImg.path
+            'path': productImg.path.split('/').filter(n => n && !disabledSegmentPaths.includes(n)).join('/')
         });
     }
 
     function getProductNameByLocale(product) {
         try {
             if (!product) return null;
-
-            const _locale                                         = getDocumentLocale();
-            const { translations: { [_locale]: { name: name } } } = product;
+            const { name } = product;
             return name;
         } catch (e) {
             return ''
@@ -86,8 +83,7 @@ export default function useProductHelper() {
         try {
             if (!product) return null;
 
-            const _locale                                         = getDocumentLocale();
-            const { translations: { [_locale]: { slug: slug } } } = product;
+            const { slug } = product;
             return LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_SHOW, { slug });
         } catch (e) {
             return '#'
@@ -96,18 +92,11 @@ export default function useProductHelper() {
 
     function getTaxonInfosByLocale(taxon) {
         try {
-            if (!taxon || !taxon.translations) return null;
+            if (!taxon) return null;
 
-            const _locale = getDocumentLocale();
-            const {
-                      translations: {
-                          [_locale]: {
-                              name,
-                              slug
-                          }
-                      }
-                  }       = taxon;
+            const { name, slug }       = taxon;
             const url     = LocaleRouter.generate(ROUTES_CATALOG.PRODUCT_INDEX, { slug });
+
             return {
                 name,
                 url
