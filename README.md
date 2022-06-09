@@ -103,7 +103,7 @@ Override the Box/_content template to include the  event `asdoria.shop.add_to_co
 ## Choose the products attributes to compare
  You can choose which product attributes will be displayed in the comparator page by add configuration into `config/packages/_sylius.yaml`
 ```yaml
-asdoria_product_comparator:
+asdoria_sylius_product_comparator:
      available_attributes:
        - t_shirt_brand
        - t_shirt_material
