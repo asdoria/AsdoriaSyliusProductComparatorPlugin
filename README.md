@@ -27,15 +27,7 @@ sylius_api:
     enabled: true
 ```
 
-3. Expose sylius_api in `config/routes/sylius_api.yaml`
-```yaml
-sylius_api:
-    [...]
-    options:
-        expose: true
-```
-
-4. In `config/routes/sylius_shop.yaml`:
+3. In `config/routes/sylius_shop.yaml`:
    1. Add comparator route
     ```yaml
     asdoria_product_comparator:
@@ -52,7 +44,7 @@ sylius_api:
         expose: true
    ```
 
-5. Add the following 4 lines to the auto-scripts in `composer.json`
+4. Add the following 4 lines to the auto-scripts in `composer.json`
 ```JSON
 "scripts": {
     [...],
@@ -77,9 +69,13 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 
 ## Usage
 
-1. Add the button to let the customer choose which products to compare
+1. Run `mkdir -p templates/bundles/SyliusShopBundle/Product/Box/`
+2. Run `cp -r vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/views/Product/Box/_content.html.twig templates/bundles/SyliusShopBundle/Product/Box/`
+
+3. Add the button to let the customer choose which products to compare
 
 Override the Box/_content template to include the  event `asdoria.shop.add_to_comparator.content` with `product` as the parameter
+
 ```html
 <!-- templates/bundles/SyliusShopBundle/Product/Box/_content.html.twig -->
 
@@ -107,7 +103,7 @@ Override the Box/_content template to include the  event `asdoria.shop.add_to_co
 ## Choose the products attributes to compare
  You can choose which product attributes will be displayed in the comparator page by add configuration into `config/packages/_sylius.yaml`
 ```yaml
-asdoria_product_comparator:
+asdoria_sylius_product_comparator:
      available_attributes:
        - t_shirt_brand
        - t_shirt_material
