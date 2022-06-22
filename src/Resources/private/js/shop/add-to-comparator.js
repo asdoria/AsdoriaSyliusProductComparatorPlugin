@@ -23,7 +23,8 @@ const init = el => {
     el.addEventListener('click', async e => {
         e.preventDefault();
 
-        let code = e.explicitOriginalTarget.dataset.productCode
+        let code = e.target.dataset.productCode;
+
         const links = document.querySelectorAll(`.js-add-to-comparator[data-product-code="${code}"]`);
         comparatorIds = getProductItems();
 
