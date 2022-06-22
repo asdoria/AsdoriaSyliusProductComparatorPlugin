@@ -72,6 +72,8 @@ To switch between Semantic UI and Tailwind CSS, change the value of this variabl
 Choose products to compare [here](https://demo-sylius.asdoria.fr/en_US/). <br>
 Then, click on the blue button `Comparator` or go [here](https://demo-sylius.asdoria.fr/en_US/comparator)!
 
+Note that we have developed several other open source plugins for Sylius, whose demos and documentation are listed on the [following page](https://asdoria.github.io/).
+
 ## Usage
 
 1. Run `mkdir -p templates/bundles/SyliusShopBundle/Product/Box/`
