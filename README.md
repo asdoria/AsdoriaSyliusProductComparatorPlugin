@@ -65,7 +65,12 @@ twig:
     globals:
         tailwind: true
 ```
-To switch between Semantic UI and Tailwind CSS, change the value of this variable
+To switch between Semantic UI and Tailwind CSS, change the value of this variable.
+
+## Demo
+
+Choose products to compare [here](https://demo-sylius.asdoria.fr/en_US/). <br>
+Then, click on the blue button `Comparator` or go [here](https://demo-sylius.asdoria.fr/en_US/comparator)!
 
 ## Usage
 
